@@ -87,11 +87,206 @@ codeqa snapshot
 
 ## Commands
 
+### Command Overview
+
 - `codeqa init` - Initialize code quality tracking in your project
-- `codeqa snapshot` - Create a new code quality snapshot
+- `codeqa snapshot` - Create a new code quality snapshot and update CODE_METRICS.md
 - `codeqa list` - List all available snapshots
 - `codeqa compare` - Compare two snapshots to see trends
 - `codeqa report` - Generate a standalone report from a snapshot
+
+### Detailed Usage Examples
+
+#### Initialize a Project
+
+The `init` command sets up your project for code quality tracking by:
+- Creating a configuration file (`codeqa.json`)
+- Creating a metrics storage directory
+- Adding a CODE_METRICS.md file if it doesn't exist
+
+```bash
+# Basic initialization with default settings
+codeqa init
+
+# After initialization, you can edit codeqa.json to customize
+# which directories to include/exclude
+```
+
+#### Create Metrics Snapshots
+
+The `snapshot` command analyzes your codebase and:
+- Runs code statistics with cloc
+- Performs linting checks with Ruff
+- Analyzes complexity and maintainability with Radon
+- Updates CODE_METRICS.md with the latest metrics
+- Stores detailed metrics data as a JSON file
+
+```bash
+# Create a snapshot with default settings
+codeqa snapshot
+
+# Create a snapshot with a custom report title
+codeqa snapshot --title "Post-Refactoring Metrics"
+```
+
+#### List Available Snapshots
+
+The `list` command shows all available snapshots:
+
+```bash
+# List all snapshots with their dates and filenames
+codeqa list
+```
+
+Example output:
+```
+Available snapshots:
+- May 13, 2025 (metrics_20250513_164444.json)
+- April 19, 2025 (metrics_20250419_150845.json)
+- April 18, 2025 (metrics_20250418_183327.json)
+```
+
+#### Compare Snapshots
+
+The `compare` command allows you to track changes between two snapshots:
+
+```bash
+# Compare by using snapshot filenames
+codeqa compare --first generated/metrics/metrics_20250418_183327.json --second generated/metrics/metrics_20250513_164444.json
+
+# Compare and save the report to a file
+codeqa compare --first generated/metrics/metrics_20250418_183327.json --second generated/metrics/metrics_20250513_164444.json --output comparison_report.md
+
+# Compare using indexes from the list command (1-based)
+codeqa compare --first 2 --second 1 --output comparison_report.md
+```
+
+The comparison report highlights:
+- Changes in lines of code
+- Changes in linting issues
+- Changes in complex functions
+- Changes in maintainability
+- Trend analysis with percentage changes
+
+#### Generate Standalone Reports
+
+The `report` command generates a standalone report from a specific snapshot:
+
+```bash
+# Generate a report from a specific snapshot
+codeqa report --snapshot generated/metrics/metrics_20250513_164444.json
+
+# Save the report to a specific file
+codeqa report --snapshot generated/metrics/metrics_20250513_164444.json --output quality_report.md
+
+# Generate a report using the snapshot index from the list command (1-based)
+codeqa report --snapshot 1 --output quality_report.md
+```
+
+The standalone report includes:
+- Summary statistics
+- Code distribution by language
+- Top complex files and functions
+- Files with linting issues
+- Files with low maintainability
+
+## Output Formats
+
+### CODE_METRICS.md
+
+The main output file is `CODE_METRICS.md`, which contains:
+
+- A header section explaining the metrics
+- Historical snapshots with dates
+- Summary statistics for each snapshot
+- Code statistics by language
+- Lists of complex files and functions
+- Files with linting issues
+- Files with low maintainability
+- Trend analysis compared to the previous snapshot
+- Analysis of critical issues to address
+
+#### Sample CODE_METRICS.md Excerpt
+
+```markdown
+# Code Quality Metrics
+
+This file tracks code quality metrics over time to help monitor and improve our codebase.
+
+## Metrics Definitions
+
+### Ruff Metrics
+- **Issues Count**: Total number of linting issues detected by Ruff
+- **Issues by Type**: Distribution of error types (unused imports, undefined names, etc.)
+
+### Radon Complexity Metrics (CC)
+- **A**: CC score 1-5 (low complexity)
+- **B**: CC score 6-10 (moderate complexity)
+- **C**: CC score 11-20 (high complexity)
+- **D**: CC score 21-30 (very high complexity)
+- **E**: CC score 31-40 (extremely high complexity)
+- **F**: CC score 41+ (alarming complexity)
+
+## Historical Snapshots
+
+### May 13, 2025
+
+#### Summary
+
+| Metric | Value | 
+|--------|-------|
+| Lines of Code | 123,739 |
+| Files | 699 |
+| Comments | 35,493 |
+| Linting Issues | 376 |
+| Cyclomatic Complexity | A:751 B:102 C:253 D:8 E:3 F:346 |
+| Maintainability Index | A:215 B:1 C:3 |
+
+#### Analysis
+- Critical issues to address:
+  - 376 linting issues
+  - 610 high complexity functions
+  - 3 files with low maintainability
+```
+
+### Comparison Reports
+
+Comparison reports highlight changes between snapshots:
+
+```markdown
+## Comparison: April 19, 2025 vs May 13, 2025
+
+### Summary
+
+| Metric | April 19, 2025 | May 13, 2025 | Change |
+|--------|---------|---------|--------|
+| Lines of Code | 26,423 | 123,739 | ↑ 97316 (368.3%) |
+| Linting Issues | 296 | 376 | ↑ 80 (27.0%) |
+| Complex Functions (C-F) | 474 | 610 | ↑ 136 (28.7%) |
+| Low Maintainability Files | 3 | 3 | ↑ 0 (0.0%) |
+
+### Analysis
+
+- Code Size: Increased by 97,316 lines
+- Code Quality: Mixed changes
+- Most Significant Change: Complex Functions
+```
+
+### JSON Data Files
+
+Each snapshot also produces a detailed JSON file containing:
+
+- Complete metrics data
+- Timestamp information
+- Raw data from all tools (cloc, Ruff, Radon)
+- Detailed breakdowns by file and function
+- Language statistics
+
+These JSON files can be used for:
+- Custom analysis scripts
+- Integration with other tools
+- Historical data processing
+- Visualization dashboards
 
 ## Configuration
 
@@ -205,6 +400,89 @@ python -m twine upload --username __token__ --password your-pypi-token dist/*
 
 5. Verify the package is available on PyPI:
 https://pypi.org/project/code-metrics-tracker/
+
+## Common Workflows and Use Cases
+
+### 1. Initial Code Quality Baseline
+
+When starting to monitor a project, first create a baseline:
+
+```bash
+# Set up code quality tracking
+codeqa init
+
+# Edit codeqa.json to include your relevant code paths
+# e.g., {"include_paths": ["src", "lib", "tests"], "exclude_patterns": ["venv", "node_modules"]}
+
+# Create initial baseline snapshot
+codeqa snapshot
+```
+
+### 2. Regular Quality Monitoring
+
+Integrate into your development workflow:
+
+```bash
+# Before starting work (to see current state)
+git pull
+codeqa list  # Check latest snapshot date
+
+# After significant changes (to track progress)
+codeqa snapshot
+git add CODE_METRICS.md generated/metrics
+git commit -m "Update code quality metrics"
+```
+
+### 3. Pre-Release Quality Check
+
+Before releasing a new version:
+
+```bash
+# Create a pre-release snapshot
+codeqa snapshot --title "Pre-release v1.2.0"
+
+# Compare with the previous snapshot
+codeqa list  # Note the snapshot indexes
+codeqa compare --first 2 --second 1 --output release_quality_report.md
+
+# Review the report and address critical issues before release
+```
+
+### 4. Refactoring Impact Analysis
+
+Measure the impact of refactoring efforts:
+
+```bash
+# Create pre-refactoring snapshot
+codeqa snapshot --title "Pre-refactoring"
+
+# (Perform your refactoring work)
+
+# Create post-refactoring snapshot
+codeqa snapshot --title "Post-refactoring"
+
+# Compare the snapshots
+codeqa list
+codeqa compare --first 2 --second 1 --output refactoring_impact.md
+```
+
+### 5. Team Code Quality Review
+
+Regular team review of code quality:
+
+```bash
+# Generate the latest snapshot
+codeqa snapshot
+
+# Generate a standalone report for the meeting
+codeqa report --snapshot 1 --output team_review.md
+
+# During the meeting, focus on:
+# - Top complex functions that need refactoring
+# - Linting issues to address
+# - Files with low maintainability
+# - Trends compared to previous review
+```
 
 ### Committing Changes to GitHub
 
