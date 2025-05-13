@@ -30,8 +30,35 @@ Perfect for teams that want to:
 
 ## Installation
 
+### Install from PyPI
+
 ```bash
 pip install code-metrics-tracker
+```
+
+### Install Required Dependencies
+
+The tool relies on three external tools that need to be installed separately:
+
+#### 1. Install cloc
+
+```bash
+# macOS
+brew install cloc
+
+# Ubuntu/Debian
+sudo apt-get install cloc
+
+# Windows
+choco install cloc
+```
+
+#### 2. Install Ruff and Radon
+
+These are automatically installed as dependencies when you install code-metrics-tracker, but you can also install them directly:
+
+```bash
+pip install ruff radon
 ```
 
 ## Quick Start
@@ -98,10 +125,12 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Install cloc
+        run: sudo apt-get install -y cloc
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install codeqa
+          pip install code-metrics-tracker
       - name: Generate code quality snapshot
         run: codeqa snapshot
       - name: Commit updated CODE_METRICS.md
@@ -110,6 +139,93 @@ jobs:
           commit_message: "Update code quality metrics"
           file_pattern: CODE_METRICS.md generated/metrics/*
 ```
+
+## Development Guide
+
+### Local Development Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/AgileWorksZA/codeqa.git
+cd codeqa
+```
+
+2. Install in development mode:
+```bash
+pip install -e .
+```
+
+3. Install development dependencies:
+```bash
+pip install build twine
+```
+
+### Creating a New Release
+
+1. Update version numbers in both files:
+   - `setup.py` - Update the `version` parameter
+   - `codeqa/__init__.py` - Update the `__version__` variable
+
+2. Update the README.md with any new features or changes
+
+3. Build the package:
+```bash
+rm -rf dist/ build/ *.egg-info/
+python -m build
+```
+
+4. Test the package locally:
+```bash
+pip install dist/*.whl
+```
+
+### Publishing to PyPI
+
+1. Install publishing tools if you haven't already:
+```bash
+pip install twine
+```
+
+2. Create a `.pypirc` file in your home directory with your PyPI credentials:
+```ini
+[pypi]
+username = your_username
+password = your_password
+```
+
+3. Upload to PyPI:
+```bash
+python -m twine upload dist/*
+```
+
+4. Alternatively, use a token for authentication:
+```bash
+python -m twine upload --username __token__ --password your-pypi-token dist/*
+```
+
+5. Verify the package is available on PyPI:
+https://pypi.org/project/code-metrics-tracker/
+
+### Committing Changes to GitHub
+
+1. Add and commit your changes:
+```bash
+git add .
+git commit -m "Release version X.Y.Z with [brief description]"
+```
+
+2. Push to GitHub:
+```bash
+git push origin main
+```
+
+3. Create a GitHub release:
+   - Go to the repository's Releases page
+   - Click "Draft a new release"
+   - Tag version: vX.Y.Z
+   - Title: Version X.Y.Z
+   - Description: Add release notes
+   - Publish release
 
 ## License
 
