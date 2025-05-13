@@ -4,7 +4,6 @@ Main CLI entry point for the CodeQA tool.
 """
 
 import argparse
-import os
 import sys
 from .metrics import (
     create_snapshot,
@@ -33,7 +32,7 @@ def main():
     snapshot_parser.add_argument('--verbose', action='store_true', help='Print detailed information during processing')
     
     # List command
-    list_parser = subparsers.add_parser('list', 
+    subparsers.add_parser('list', 
         help='List all available snapshots')
     
     # Compare command
@@ -75,7 +74,7 @@ def main():
             verbose=args.verbose if hasattr(args, 'verbose') else False
         )
         if update_metrics_file(snapshot):
-            print(f"Snapshot added to CODE_METRICS.md")
+            print("Snapshot added to CODE_METRICS.md")
             print(f"Detailed metrics saved to {json_path}")
             return 0
         else:

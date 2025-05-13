@@ -12,9 +12,7 @@ import os
 import re
 import shutil
 import subprocess
-import sys
 from collections import defaultdict
-from pathlib import Path
 import pkg_resources
 
 
@@ -200,15 +198,26 @@ def get_code_stats(config):
     
     print(f"Running code statistics on: {include_paths}")
     
-    # Run cloc command
-    cloc_output = run_command(f"cloc {include_paths}")
+    # Run cloc command with JSON output
+    cloc_output = run_command(f"cloc {include_paths} --json")
     if cloc_output is None:
         return {
             'total': {'code': 0, 'blank': 0, 'comment': 0, 'files': 0},
             'by_language': {}
         }
     
-    # Parse the output
+    # Import and use the JSON parser
+    from codeqa.metrics_parsing import parse_cloc_json
+    
+    # Check if output is JSON format
+    if cloc_output and '{' in cloc_output and '}' in cloc_output:
+        try:
+            # Use the proper JSON parser
+            return parse_cloc_json(cloc_output)
+        except json.JSONDecodeError:
+            print("Warning: Could not parse cloc JSON output, falling back to text parsing")
+    
+    # Fallback to text parsing for backward compatibility
     stats = {
         'total': {'code': 0, 'blank': 0, 'comment': 0, 'files': 0},
         'by_language': {}
@@ -268,65 +277,6 @@ def get_code_stats(config):
     return stats
 
 
-def parse_radon_cc(output, config):
-    """Parse the output of radon cc command."""
-    results = []
-    current_file = None
-    
-    for line in output.strip().split('\n'):
-        if not line.strip():
-            continue
-            
-        if not line.startswith(' '):  # This is a file path
-            current_file = line.strip()
-            if not is_project_file(current_file, config):
-                current_file = None
-        elif current_file:
-            # Handle both output formats from Radon
-            
-            # Format 1: "A (5) - function_name" (old expected format)
-            if re.match(r'^[A-F]', line.strip()):
-                parts = line.strip().split(' - ')
-                if len(parts) >= 2:
-                    grade_part = parts[0].strip()
-                    func_part = parts[1].strip() if len(parts) > 1 else ""
-                    
-                    grade = grade_part[0]
-                    complexity_match = re.search(r'\((\d+)\)', grade_part)
-                    complexity = int(complexity_match.group(1)) if complexity_match else 0
-                    
-                    results.append({
-                        'file': current_file,
-                        'function': func_part,
-                        'grade': grade,
-                        'complexity': complexity
-                    })
-            
-            # Format 2: "M 219:4 ZohoApiClient.make_request - C (20)" (actual format)
-            elif ' - ' in line:
-                parts = line.strip().split(' - ')
-                if len(parts) == 2:
-                    # Extract function details from the first part
-                    func_info = parts[0].strip().split(' ', 2)
-                    if len(func_info) >= 3:
-                        func_name = func_info[2]
-                    else:
-                        func_name = "Unknown"
-                    
-                    # Extract grade and complexity from the second part
-                    grade_info = parts[1].strip()
-                    grade = grade_info[0] if grade_info else 'X'
-                    complexity_match = re.search(r'\((\d+)\)', grade_info)
-                    complexity = int(complexity_match.group(1)) if complexity_match else 0
-                    
-                    results.append({
-                        'file': current_file,
-                        'function': func_name,
-                        'grade': grade,
-                        'complexity': complexity
-                    })
-    
-    return sorted(results, key=lambda x: x['complexity'], reverse=True)
 
 
 def parse_radon_mi(output, config):
@@ -366,15 +316,20 @@ def parse_ruff_output(output, config):
     Returns:
         List of linting issues found
     """
-    results = []
+    # Import the new JSON parser
+    from codeqa.metrics_parsing import parse_ruff_json
     
-    if not output:
-        return results
+    # Check if output is in JSON format
+    if output and output.strip().startswith('['): 
+        # This appears to be JSON format
+        return parse_ruff_json(output, config)
+    
+    # Handle empty output or "no issues" messages
+    if not output or "Found no issues" in output or "No files to check" in output:
+        return []
         
-    # Check for "no issues" message
-    if "Found no issues" in output or "No files to check" in output:
-        return results
-        
+    # Legacy text parsing code - keep for backward compatibility
+    results = []
     lines = output.strip().split('\n')
     for line in lines:
         if not line.strip():
@@ -522,6 +477,10 @@ def create_snapshot(config_path=None, verbose=False):
     """
     Create a snapshot of code quality metrics.
     
+    This function runs various code analysis tools and generates a snapshot
+    of the current code quality metrics. It saves the snapshot as a JSON file
+    and returns a markdown report.
+    
     Args:
         config_path: Optional path to a custom config file
         verbose: Whether to print detailed progress information
@@ -556,8 +515,8 @@ def create_snapshot(config_path=None, verbose=False):
     paths_to_analyze = [os.path.join(root_dir, path) for path in config["include_paths"]]
     paths_str = " ".join(paths_to_analyze)
     
-    # Run Ruff - with --no-fix and ignoring exit code to handle cases where Ruff finds issues
-    ruff_cmd = f"ruff check {paths_str} --no-fix || true"
+    # Run Ruff with JSON output format
+    ruff_cmd = f"ruff check {paths_str} --output-format json --no-fix || true"
     print(f"Running linting check: {ruff_cmd}")
     ruff_output = run_command(ruff_cmd)
     
@@ -571,6 +530,7 @@ def create_snapshot(config_path=None, verbose=False):
             'files_count': {}
         }
     else:
+        # Parse using the improved parser that handles JSON
         ruff_issues = parse_ruff_output(ruff_output, config)
         metrics_data['ruff'] = {
             'issues_count': len(ruff_issues),
@@ -578,33 +538,18 @@ def create_snapshot(config_path=None, verbose=False):
             'files_count': count_issues_by_file(ruff_issues)
         }
     
-    # Run Radon CC
-    radon_cc_output = run_command(f"radon cc {paths_str} -a -s")
+    # Run Radon CC with JSON output format
+    radon_cc_output = run_command(f"radon cc {paths_str} -a -s --json")
     if radon_cc_output is None:
         metrics_data['radon_cc'] = {'error': 'Error running Radon CC'}
     else:
-        cc_results = parse_radon_cc(radon_cc_output, config)
-        
-        # Count by grade
-        cc_counts = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0}
-        for result in cc_results:
-            cc_counts[result['grade']] += 1
-        
-        # Count by file
-        cc_files = defaultdict(lambda: {'count': 0, 'max_complexity': 0, 'max_grade': 'A'})
-        for result in cc_results:
-            file_path = result['file']
-            cc_files[file_path]['count'] += 1
-            if result['complexity'] > cc_files[file_path]['max_complexity']:
-                cc_files[file_path]['max_complexity'] = result['complexity']
-                cc_files[file_path]['max_grade'] = result['grade']
-                cc_files[file_path]['function'] = result['function']
-        
-        metrics_data['radon_cc'] = {
-            'grade_counts': cc_counts,
-            'functions': cc_results,
-            'files': dict(sorted(cc_files.items(), key=lambda x: x[1]['max_complexity'], reverse=True))
-        }
+        # Import parser function from metrics_parsing module
+        from codeqa.metrics_parsing import parse_radon_cc_json
+        try:
+            # Use the proper JSON parser
+            metrics_data['radon_cc'] = parse_radon_cc_json(radon_cc_output, config)
+        except json.JSONDecodeError:
+            metrics_data['radon_cc'] = {'error': 'Error parsing Radon CC JSON output'}
     
     # Run Radon MI
     radon_mi_output = run_command(f"radon mi {paths_str} -s")
@@ -697,11 +642,20 @@ def create_snapshot(config_path=None, verbose=False):
         complex_funcs = metrics_data['radon_cc']['functions'][:10]
         for func in complex_funcs:
             rel_path = os.path.relpath(func['file'], root_dir)
+            # Fix the format - extract the actual function name from the JSON
+            if "(" in func['function']:
+                # Function name has complexity in it like "F (41)" - extract the name
+                display_name = func['function'].split(" ", 1)[0]
+                actual_complexity = int(func['function'].split("(")[1].split(")")[0])
+            else:
+                display_name = func['function']
+                actual_complexity = func['complexity']
+                
             top_complex_functions.append({
                 'file': rel_path, 
-                'function': func['function'],
+                'function': display_name,
                 'grade': func['grade'],
-                'complexity': func['complexity']
+                'complexity': actual_complexity
             })
     
     # Get top 10 files by linting issues
@@ -742,8 +696,16 @@ def create_snapshot(config_path=None, verbose=False):
     # Create table for complex functions
     complex_funcs_table = "| File | Function | Grade | Complexity |\n"
     complex_funcs_table += "|------|----------|-------|------------|\n"
+    
+        # With the proper JSON parsing, we no longer need the function name mapping
+    # The data is already in the correct format with proper function names and complexity values
     for func_data in top_complex_functions:
-        complex_funcs_table += f"| {func_data['file']} | {func_data['function']} | {func_data['grade']} | {func_data['complexity']} |\n"
+        # The function name, complexity and grade are now correctly extracted from the JSON
+        function_name = func_data.get('function', 'Unknown')
+        complexity = func_data.get('complexity', 0)
+        grade = func_data.get('grade', 'X')
+        
+        complex_funcs_table += f"| {func_data['file']} | {function_name} | {grade} | {complexity} |\n"
     
     # Create table for lint files
     lint_files_table = "| File | Issues |\n"
@@ -909,8 +871,8 @@ def compare_snapshots(snapshot1, snapshot2):
 
 ### Analysis
 
-- Code Size: {f"Increased by {loc_change:,} lines" if loc_change > 0 else f"Decreased by {abs(loc_change):,} lines" if loc_change < 0 else "Remained the same"}
-- Code Quality: {f"Improved overall" if ruff_change <= 0 and cc_change <= 0 and mi_change <= 0 else f"Declined overall" if ruff_change > 0 and cc_change > 0 and mi_change > 0 else "Mixed changes"}
+- Code Size: {"Increased by " + str(loc_change) + " lines" if loc_change > 0 else "Decreased by " + str(abs(loc_change)) + " lines" if loc_change < 0 else "Remained the same"}
+- Code Quality: {"Improved overall" if ruff_change <= 0 and cc_change <= 0 and mi_change <= 0 else "Declined overall" if ruff_change > 0 and cc_change > 0 and mi_change > 0 else "Mixed changes"}
 - Most Significant Change: {max([('Linting Issues', abs(ruff_percent or 0)), ('Complex Functions', abs(cc_percent or 0)), ('Low Maintainability', abs(mi_percent or 0))], key=lambda x: x[1])[0] if any([ruff_percent, cc_percent, mi_percent]) else "None"}
 """
     

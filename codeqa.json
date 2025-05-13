@@ -1,0 +1,11 @@
+{
+  "include_paths": [
+    "codeqa"
+  ],
+  "exclude_patterns": [
+    "venv",
+    "site-packages",
+    "__pycache__",
+    ".pyc"
+  ]
+}
