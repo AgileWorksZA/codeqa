@@ -4,39 +4,8 @@ This document outlines planned improvements, fixes, and refactoring tasks for th
 
 ## Immediate Tasks
 
-### 0. Refactor Parsing Implementation
 
-- [x] **Refactor all tool output parsing to use proper JSON formats**
-  - Convert radon CC parser to use JSON output properly
-  - Convert cloc parser to use JSON output
-  - Convert ruff parser to use JSON output
-  - Priority: Critical
-  - Effort: Medium
-  - Completed in v0.1.4
-
-- [x] **Create typed data structures for all metrics**
-  - Define proper classes or TypedDict structures for each metric type
-  - Ensure consistent data format throughout the application
-  - Priority: High
-  - Effort: Medium
-  - Completed in v0.1.4
-
-- [x] **Implement proper unit tests for parsing functions**
-  - Create comprehensive tests for each parser
-  - Ensure they handle edge cases properly
-  - Priority: High
-  - Effort: Medium
-  - Completed in v0.1.4
-
-- [x] **Remove workarounds and hacks**
-  - Remove the function name mapping table in metrics.py
-  - Replace regex-based parsers with direct JSON property access
-  - Priority: High
-  - Effort: Low
-  - Completed in v0.1.4
-
-
-### 1. Fix Linting Issues
+### Fix Linting Issues
 
 - [ ] **Fix unused imports in cli.py**
   - Remove unused `os` import (F401)
@@ -66,7 +35,7 @@ This document outlines planned improvements, fixes, and refactoring tasks for th
 
 ## Refactoring Tasks
 
-### 1. Reduce Function Complexity
+### Reduce Function Complexity
 
 - [ ] **Refactor create_snapshot() function in metrics.py**
   - Break down into smaller, focused functions
@@ -75,12 +44,6 @@ This document outlines planned improvements, fixes, and refactoring tasks for th
   - Effort: High
   - Add tests before refactoring to ensure behavior is preserved
 
-- [x] **Refactor JSON parsing in metrics.py**
-  - Replace all string/regex parsing with proper JSON handling
-  - Implement parse_radon_cc_json(), parse_ruff_json(), and parse_cloc_json() functions
-  - Priority: High
-  - Effort: Medium
-  - Completed in v0.1.4
 
 - [ ] **Refactor compare_snapshots() function in metrics.py**
   - Extract trend calculation logic into separate function
@@ -88,7 +51,7 @@ This document outlines planned improvements, fixes, and refactoring tasks for th
   - Effort: Medium
   - Add tests before refactoring
 
-### 2. Improve Error Handling
+### Improve Error Handling
 
 - [ ] **Enhance error handling in CLI commands**
   - Add more descriptive error messages
