@@ -2,6 +2,11 @@
 
 All notable changes to the Code Metrics Tracker project will be documented in this file.
 
+## [0.1.5] - 2025-05-14
+
+### Fixed
+- Fixed bug in Radon CC JSON parsing where string entries caused AttributeError
+
 ## [0.1.4] - 2023-05-14
 
 ### Added

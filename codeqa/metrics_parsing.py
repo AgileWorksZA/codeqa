@@ -164,11 +164,19 @@ def parse_radon_cc_json(output: str, config: Dict[str, Any]) -> Dict[str, Any]:
             
         # Process each function in the file
         for func in functions:
-            # Extract data directly from the JSON structure
-            function_name = func.get('name', 'Unknown')
-            complexity = func.get('complexity', 0)
-            grade = func.get('rank', 'X')
-            func_type = func.get('type', 'function')
+            # Handle both string and dict inputs
+            if isinstance(func, str):
+                # For string entries, use defaults
+                function_name = "Unknown"
+                complexity = 0
+                grade = "X" 
+                func_type = "function"
+            else:
+                # Extract data directly from the JSON structure
+                function_name = func.get('name', 'Unknown')
+                complexity = func.get('complexity', 0)
+                grade = func.get('rank', 'X')
+                func_type = func.get('type', 'function')
             
             # Create a structured entry for this function
             cc_results.append({
