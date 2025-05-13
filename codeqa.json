@@ -1,11 +1,15 @@
 {
   "include_paths": [
-    "codeqa"
+    "codeqa",
+    "tests"
   ],
   "exclude_patterns": [
     "venv",
     "site-packages",
     "__pycache__",
-    ".pyc"
+    ".pyc",
+    "test_files",
+    "sample_project",
+    "test_analysis"
   ]
 }

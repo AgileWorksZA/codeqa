@@ -11,7 +11,7 @@ Each parser converts tool JSON output into a structured, typed format.
 """
 
 import json
-from typing import Dict, List, Any, Optional, TypedDict, Union
+from typing import Dict, List, Any, TypedDict
 
 
 # Type definitions for parsed data

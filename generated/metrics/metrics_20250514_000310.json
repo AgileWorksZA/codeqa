@@ -1,0 +1,545 @@
+{
+  "date": "May 14, 2025",
+  "timestamp": "20250514_000310",
+  "config": {
+    "include_paths": [
+      "codeqa",
+      "tests"
+    ],
+    "exclude_patterns": [
+      "venv",
+      "site-packages",
+      "__pycache__",
+      ".pyc",
+      "test_files",
+      "sample_project",
+      "test_analysis"
+    ]
+  },
+  "cloc": {
+    "total": {
+      "files": 9,
+      "blank": 518,
+      "comment": 637,
+      "code": 1561
+    },
+    "by_language": {
+      "Python": {
+        "files": 9,
+        "blank": 518,
+        "comment": 637,
+        "code": 1561
+      }
+    }
+  },
+  "ruff": {
+    "issues_count": 4,
+    "issues": [
+      {
+        "file": "tests/test_parsing.py",
+        "line": 12,
+        "column": 8,
+        "code": "F401",
+        "message": "[*] `os` imported but unused"
+      },
+      {
+        "file": "tests/test_parsing.py",
+        "line": 13,
+        "column": 8,
+        "code": "F401",
+        "message": "[*] `tempfile` imported but unused"
+      },
+      {
+        "file": "tests/test_parsing.py",
+        "line": 15,
+        "column": 34,
+        "code": "F401",
+        "message": "[*] `unittest.mock.MagicMock` imported but unused"
+      },
+      {
+        "file": "tests/test_parsing.py",
+        "line": 18,
+        "column": 20,
+        "code": "F401",
+        "message": "[*] `codeqa.metrics` imported but unused"
+      }
+    ],
+    "files_count": {
+      "tests/test_parsing.py": 4
+    }
+  },
+  "radon_cc": {
+    "grade_counts": {
+      "A": 11,
+      "B": 3,
+      "C": 9,
+      "D": 0,
+      "E": 0,
+      "F": 41
+    },
+    "functions": [
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker.test_snapshot",
+        "grade": "B",
+        "complexity": 10
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker.test_init",
+        "grade": "B",
+        "complexity": 6
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker.test_compare",
+        "grade": "B",
+        "complexity": 6
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker.test_list",
+        "grade": "A",
+        "complexity": 5
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker.test_report",
+        "grade": "A",
+        "complexity": 5
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "TestRadonParsing.test_radon_cc_json_parsing",
+        "grade": "A",
+        "complexity": 3
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "TestRadonParsing.setUp",
+        "grade": "A",
+        "complexity": 1
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "TestRuffParsing.setUp",
+        "grade": "A",
+        "complexity": 1
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "TestRuffParsing.test_ruff_json_parsing",
+        "grade": "A",
+        "complexity": 1
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "TestClocParsing.setUp",
+        "grade": "A",
+        "complexity": 1
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "TestClocParsing.test_cloc_json_parsing",
+        "grade": "A",
+        "complexity": 1
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker.setup_method",
+        "grade": "A",
+        "complexity": 1
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker.teardown_method",
+        "grade": "A",
+        "complexity": 1
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker.run_command",
+        "grade": "A",
+        "complexity": 1
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "E (35)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "D (25)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "C (16)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "C (12)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "C (12)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "B (10)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "B (8)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "B (7)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "B (7)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "B (7)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "B (6)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "B (6)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "A (5)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "A (5)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "A (3)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "function": "A (2)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "C (16)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "C (12)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "B (10)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "B (10)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "B (7)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "B (6)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "B (6)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (5)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (3)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (3)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (3)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (3)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (2)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (2)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (2)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (2)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (2)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "function": "A (1)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/cli.py",
+        "function": "D (23)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "function": "B (9)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "function": "B (6)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "function": "A (4)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "function": "A (3)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "function": "A (1)",
+        "grade": "C",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "function": "A (1)",
+        "grade": "C",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "function": "A (1)",
+        "grade": "C",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "function": "A (1)",
+        "grade": "C",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "function": "A (1)",
+        "grade": "C",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "A (3)",
+        "grade": "C",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "A (2)",
+        "grade": "C",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "A (2)",
+        "grade": "C",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "A (5)",
+        "grade": "C",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "A (3)",
+        "grade": "F",
+        "complexity": 0
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "A (2)",
+        "grade": "F",
+        "complexity": 0
+      }
+    ],
+    "files": {
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py": {
+        "count": 11,
+        "max_complexity": 10,
+        "max_grade": "B",
+        "function": "TestCodeMetricsTracker.test_snapshot"
+      },
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py": {
+        "count": 9,
+        "max_complexity": 3,
+        "max_grade": "A",
+        "function": "TestRadonParsing.test_radon_cc_json_parsing"
+      },
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py": {
+        "count": 16,
+        "max_complexity": 0,
+        "max_grade": "A"
+      },
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py": {
+        "count": 18,
+        "max_complexity": 0,
+        "max_grade": "A"
+      },
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/cli.py": {
+        "count": 1,
+        "max_complexity": 0,
+        "max_grade": "A"
+      },
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py": {
+        "count": 9,
+        "max_complexity": 0,
+        "max_grade": "A"
+      }
+    }
+  },
+  "radon_mi": {
+    "grade_counts": {
+      "A": 7,
+      "B": 0,
+      "C": 0
+    },
+    "files": [
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics.py",
+        "grade": "A",
+        "score": 22.24
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/snapshot_manager.py",
+        "grade": "A",
+        "score": 36.38
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "grade": "A",
+        "score": 51.71
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/cli.py",
+        "grade": "A",
+        "score": 61.43
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/metrics_parsing.py",
+        "grade": "A",
+        "score": 64.16
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "grade": "A",
+        "score": 66.88
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/codeqa/__init__.py",
+        "grade": "A",
+        "score": 100.0
+      }
+    ]
+  }
+}

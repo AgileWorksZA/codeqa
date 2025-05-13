@@ -6,13 +6,9 @@ This module handles snapshot creation, comparison, and reporting.
 It was extracted from metrics.py to reduce function complexity.
 """
 
-import datetime
 import glob
 import json
 import os
-import re
-from collections import defaultdict
-from typing import Dict, List, Any, Tuple, Optional
 
 
 # Constants
