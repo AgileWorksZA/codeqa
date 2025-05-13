@@ -9,11 +9,59 @@ It was extracted from metrics.py to reduce function complexity.
 import glob
 import json
 import os
+from typing import Dict, Any, Tuple, Optional
 
 
 # Constants
 METRICS_FILE = "CODE_METRICS.md"
 METRICS_DIR = "generated/metrics"
+
+
+def is_snapshot_unchanged(current_metrics: Dict[str, Any], previous_metrics: Optional[Dict[str, Any]]) -> bool:
+    """
+    Compare two snapshots to determine if there are any significant changes.
+    
+    Args:
+        current_metrics: The current metrics snapshot
+        previous_metrics: The previous metrics snapshot
+        
+    Returns:
+        bool: True if the snapshots are essentially the same, False if there are changes
+    """
+    # If there's no previous snapshot, we consider this a change
+    if previous_metrics is None:
+        return False
+        
+    # Compare summary data fields that would indicate meaningful changes
+    summary_fields = [
+        'cloc_stats.total',
+        'ruff_issues_count',
+        'radon_cc.grade_counts',
+        'radon_mi_grades'
+    ]
+    
+    # Check each summary field
+    for field in summary_fields:
+        parts = field.split('.')
+        
+        # Navigate through nested dictionaries
+        current_value = current_metrics
+        previous_value = previous_metrics
+        
+        try:
+            for part in parts:
+                current_value = current_value[part]
+                previous_value = previous_value[part]
+                
+            # Compare the values - if they differ, we have a change
+            if current_value != previous_value:
+                return False
+        except (KeyError, TypeError):
+            # If we can't compare the fields, assume there's a change
+            return False
+            
+    # If we get here, all summary data matches
+    return True
 
 
 def find_latest_metrics_file(current_timestamp):

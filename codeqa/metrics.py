@@ -473,7 +473,7 @@ def get_formatted_trend(change, percent, higher_is_better=False):
             return f"↑ {change}" if not higher_is_better else f"↓ {abs(change)}"
 
 
-def create_snapshot(config_path=None, verbose=False):
+def create_snapshot(config_path=None, verbose=False, only_on_changes=False):
     """
     Create a snapshot of code quality metrics.
     
@@ -484,9 +484,10 @@ def create_snapshot(config_path=None, verbose=False):
     Args:
         config_path: Optional path to a custom config file
         verbose: Whether to print detailed progress information
+        only_on_changes: If True, only update CODE_METRICS.md if significant changes detected
         
     Returns:
-        Tuple of (markdown_content, json_path)
+        Tuple of (markdown_content, json_path, unchanged)
     """
     config = load_config(config_path)
     today = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -572,17 +573,7 @@ def create_snapshot(config_path=None, verbose=False):
     # Ensure the metrics directory exists
     os.makedirs(METRICS_DIR, exist_ok=True)
     
-    json_path = os.path.join(METRICS_DIR, f"metrics_{today}.json")
-    with open(json_path, 'w') as f:
-        json.dump(metrics_data, f, indent=2)
-    
-    # Generate markdown summary
-    root_dir = os.getcwd()
-    ruff_count = metrics_data['ruff'].get('issues_count', 0)
-    cc_counts = metrics_data['radon_cc'].get('grade_counts', {})
-    mi_counts = metrics_data['radon_mi'].get('grade_counts', {})
-    
-    # Look up previous metrics for trends
+    # Look up previous metrics for trends and to check for changes
     previous_metrics_file = find_latest_metrics_file(today)
     previous_metrics = None
     if previous_metrics_file:
@@ -591,6 +582,31 @@ def create_snapshot(config_path=None, verbose=False):
                 previous_metrics = json.load(f)
         except Exception as e:
             print(f"Warning: Could not load previous metrics ({e})")
+    
+    # Check if this snapshot is unchanged from the previous one
+    from codeqa.snapshot_manager import is_snapshot_unchanged
+    
+    # Default to 'changed' for the first run
+    unchanged = False
+    
+    # Only check for changes if the flag is set and there's a previous snapshot
+    if only_on_changes and previous_metrics:
+        unchanged = is_snapshot_unchanged(metrics_data, previous_metrics)
+        
+    # Add suffix to JSON filename if unchanged
+    filename = f"metrics_{today}"
+    if unchanged:
+        filename += "_unchanged"
+    
+    json_path = os.path.join(METRICS_DIR, f"{filename}.json")
+    with open(json_path, 'w') as f:
+        json.dump(metrics_data, f, indent=2)
+    
+    # Generate markdown summary
+    root_dir = os.getcwd()
+    ruff_count = metrics_data['ruff'].get('issues_count', 0)
+    cc_counts = metrics_data['radon_cc'].get('grade_counts', {})
+    mi_counts = metrics_data['radon_mi'].get('grade_counts', {})
     
     # Calculate trends
     trends = {}
@@ -769,7 +785,13 @@ def create_snapshot(config_path=None, verbose=False):
   - {f"{mi_counts.get('C', 0)} files with low maintainability" if mi_counts.get('C', 0) > 0 else "0 files with low maintainability"}
 """
     
-    return markdown, json_path
+    # Print message if unchanged
+    if unchanged:
+        print("\nNo significant changes detected since the last snapshot.")
+        print(f"The metrics file still contains the last meaningful update.")
+        print(f"Metrics data saved to {json_path} (marked as unchanged).")
+    
+    return markdown, json_path, unchanged
 
 
 def update_metrics_file(snapshot):

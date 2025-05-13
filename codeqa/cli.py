@@ -30,6 +30,8 @@ def main():
         help='Create a new code quality snapshot and update CODE_METRICS.md')
     snapshot_parser.add_argument('--config', help='Path to a custom config file')
     snapshot_parser.add_argument('--verbose', action='store_true', help='Print detailed information during processing')
+    snapshot_parser.add_argument('--only-on-changes', action='store_true', 
+        help='Only update CODE_METRICS.md if significant changes detected since last snapshot')
     
     # List command
     subparsers.add_parser('list', 
@@ -69,11 +71,19 @@ def main():
     elif args.command == 'snapshot':
         # Create snapshot
         config_path = args.config if hasattr(args, 'config') else None
-        snapshot, json_path = create_snapshot(
+        only_on_changes = args.only_on_changes if hasattr(args, 'only_on_changes') else False
+        
+        snapshot, json_path, unchanged = create_snapshot(
             config_path=config_path,
-            verbose=args.verbose if hasattr(args, 'verbose') else False
+            verbose=args.verbose if hasattr(args, 'verbose') else False,
+            only_on_changes=only_on_changes
         )
-        if update_metrics_file(snapshot):
+        
+        # Only update the metrics file if we have changes or if the flag is not set
+        if unchanged and only_on_changes:
+            print("Snapshot created but CODE_METRICS.md not updated (no significant changes)")
+            return 0
+        elif update_metrics_file(snapshot):
             print("Snapshot added to CODE_METRICS.md")
             print(f"Detailed metrics saved to {json_path}")
             return 0

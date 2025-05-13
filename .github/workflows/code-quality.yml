@@ -26,7 +26,7 @@ jobs:
           pip install code-metrics-tracker==0.1.5
       
       - name: Generate code quality snapshot
-        run: codeqa snapshot
+        run: codeqa snapshot --only-on-changes
       
       - name: Commit updated CODE_METRICS.md
         uses: stefanzweifel/git-auto-commit-action@v4
