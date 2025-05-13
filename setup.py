@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 from setuptools import setup, find_packages
+import os
+
+# Read the long description from README.md
+this_directory = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
     name="code-metrics-tracker",
-    version="0.1.0",
-    description="Code Quality Metrics Tracking Tool",
+    version="0.1.1",
+    description="Code Quality Metrics Tracking Tool for Python Projects",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author="AgileWorks",
     author_email="info@agileworks.co.za",
     url="https://github.com/AgileWorksZA/codeqa",
@@ -35,4 +43,10 @@ setup(
         "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
     ],
+    keywords="code quality metrics analysis static complexity maintainability linting ruff radon",
+    project_urls={
+        "Bug Tracker": "https://github.com/AgileWorksZA/codeqa/issues",
+        "Documentation": "https://github.com/AgileWorksZA/codeqa/blob/main/README.md",
+        "Source Code": "https://github.com/AgileWorksZA/codeqa",
+    },
 )

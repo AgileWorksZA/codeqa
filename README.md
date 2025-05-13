@@ -1,11 +1,21 @@
 # Code Metrics Tracker
 
-A code quality metrics tracking tool for Python projects, focusing on:
+[![PyPI Version](https://img.shields.io/pypi/v/code-metrics-tracker.svg)](https://pypi.org/project/code-metrics-tracker/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python Versions](https://img.shields.io/pypi/pyversions/code-metrics-tracker.svg)](https://pypi.org/project/code-metrics-tracker/)
 
-- Lines of code statistics
-- Linting issues (using Ruff)
-- Cyclomatic complexity (using Radon)
-- Maintainability index (using Radon)
+A powerful code quality metrics tracking tool for Python projects that helps teams monitor and improve their codebase over time. Code Metrics Tracker generates comprehensive reports focusing on:
+
+- **Lines of code statistics**: Track code volume and distribution by language
+- **Linting issues**: Detect and monitor code style, potential bugs, and anti-patterns (using Ruff)
+- **Cyclomatic complexity**: Identify complex functions and methods that need refactoring (using Radon)
+- **Maintainability index**: Measure how maintainable your code is over time (using Radon)
+
+Perfect for teams that want to:
+- Track code quality trends over time
+- Identify problematic areas in the codebase
+- Make data-driven refactoring decisions
+- Establish quality standards with measurable metrics
 
 ## Installation
 
