@@ -5,7 +5,7 @@
 This tool tracks code quality metrics for Python projects, generating reports that highlight code quality trends over time.
 
 - **Package name**: code-metrics-tracker
-- **Current version**: 0.1.5
+- **Current version**: 0.1.6
 - **Repository**: https://github.com/AgileWorksZA/codeqa
 - **PyPI**: https://pypi.org/project/code-metrics-tracker/
 
@@ -18,7 +18,7 @@ The tool uses three specialized analyzers:
 
 ### Core Implementation
 
-- `codeqa/__init__.py`: Version definition (`__version__ = "0.1.5"`)
+- `codeqa/__init__.py`: Version definition (`__version__ = "0.1.6"`)
 - `codeqa/cli.py`: CLI command parser and entry point
 - `codeqa/metrics.py`: Core implementation with all metrics functionality
 
@@ -44,8 +44,8 @@ The tool uses three specialized analyzers:
 ### Creating a Release
 
 1. Update versions in:
-   - `setup.py` - `version="0.1.5"` parameter
-   - `codeqa/__init__.py` - `__version__ = "0.1.5"` variable
+   - `setup.py` - `version="0.1.6"` parameter
+   - `codeqa/__init__.py` - `__version__ = "0.1.6"` variable
 
 2. Build the package:
    ```bash

@@ -2,6 +2,17 @@
 
 All notable changes to the Code Metrics Tracker project will be documented in this file.
 
+## [0.1.6] - 2025-05-14
+
+### Added
+- Improved change detection in `--only-on-changes` flag
+- Debug output showing which metrics changed between snapshots
+- Clear messages when no changes are detected
+
+### Fixed
+- Fixed JSON field path references in snapshot comparison
+- Corrected "_unchanged" suffix to JSON files when no changes detected
+
 ## [0.1.5] - 2025-05-14
 
 ### Fixed

@@ -10,6 +10,13 @@ A powerful code quality metrics tracking tool for Python projects that helps tea
 - **Ruff**: Identifies linting issues, code style violations, and potential bugs with fast performance
 - **Radon**: Analyzes code complexity (cyclomatic complexity) and maintainability
 
+## What's New in 0.1.6 (May 2025)
+
+- **Improved Detection**: Fixed `--only-on-changes` flag to correctly identify meaningful changes
+- **Better Feedback**: Added debug output showing which metrics changed between snapshots
+- **Developer UX**: Clear messages when no changes are detected in snapshots
+- **JSON Files**: Added "_unchanged" suffix to metrics files when no changes are detected
+
 ## What's New in 0.1.5 (May 2025)
 
 - **New Feature**: Added `--only-on-changes` flag to prevent redundant CODE_METRICS.md updates
