@@ -10,6 +10,12 @@ A powerful code quality metrics tracking tool for Python projects that helps tea
 - **Ruff**: Identifies linting issues, code style violations, and potential bugs with fast performance
 - **Radon**: Analyzes code complexity (cyclomatic complexity) and maintainability
 
+## What's New in 0.1.5 (May 2025)
+
+- **Bug Fix**: Fixed an issue with Radon CC JSON parsing where string entries caused errors
+- **Improved Stability**: Enhanced parser to handle different formats of Radon output
+- **Better Error Handling**: Added specific type checking to prevent AttributeError
+
 ## What's New in 0.1.4 (May 2023)
 
 - **Improved JSON Parsing**: All tools now use structured JSON output for better accuracy
