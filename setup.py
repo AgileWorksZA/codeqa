@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="codeqa",
+    name="code-metrics-tracker",
     version="0.1.0",
     description="Code Quality Metrics Tracking Tool",
     author="AgileWorks",

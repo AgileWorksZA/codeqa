@@ -1,4 +1,4 @@
-# CodeQA
+# Code Metrics Tracker
 
 A code quality metrics tracking tool for Python projects, focusing on:
 
@@ -10,7 +10,7 @@ A code quality metrics tracking tool for Python projects, focusing on:
 ## Installation
 
 ```bash
-pip install codeqa
+pip install code-metrics-tracker
 ```
 
 ## Quick Start
