@@ -10,6 +10,17 @@ A powerful code quality metrics tracking tool for Python projects that helps tea
 - **Ruff**: Identifies linting issues, code style violations, and potential bugs with fast performance
 - **Radon**: Analyzes code complexity (cyclomatic complexity) and maintainability
 
+## What's New in 0.1.4 (May 2023)
+
+- **Improved JSON Parsing**: All tools now use structured JSON output for better accuracy
+- **Accurate Complexity Reporting**: Fixed function complexity display in reports
+- **Enhanced Modularity**: New dedicated modules for parsing and snapshot management
+- **Type Safety**: Added TypedDict definitions for all metrics data
+
+See the [CHANGELOG.md](CHANGELOG.md) for full details.
+
+## Features
+
 The tracker generates detailed reports focusing on:
 
 - **Lines of code statistics**: Track code volume and distribution by language
@@ -76,14 +87,6 @@ codeqa snapshot
 ```
 
 3. View the generated CODE_METRICS.md file for detailed metrics.
-
-## Features
-
-- Track code quality metrics over time
-- Generate formatted Markdown reports
-- Compare snapshots to identify trends
-- Highlight critical issues to address
-- Configurable for different project structures
 
 ## Commands
 
@@ -400,110 +403,6 @@ python -m twine upload --username __token__ --password your-pypi-token dist/*
 
 5. Verify the package is available on PyPI:
 https://pypi.org/project/code-metrics-tracker/
-
-## Common Workflows and Use Cases
-
-### 1. Initial Code Quality Baseline
-
-When starting to monitor a project, first create a baseline:
-
-```bash
-# Set up code quality tracking
-codeqa init
-
-# Edit codeqa.json to include your relevant code paths
-# e.g., {"include_paths": ["src", "lib", "tests"], "exclude_patterns": ["venv", "node_modules"]}
-
-# Create initial baseline snapshot
-codeqa snapshot
-```
-
-### 2. Regular Quality Monitoring
-
-Integrate into your development workflow:
-
-```bash
-# Before starting work (to see current state)
-git pull
-codeqa list  # Check latest snapshot date
-
-# After significant changes (to track progress)
-codeqa snapshot
-git add CODE_METRICS.md generated/metrics
-git commit -m "Update code quality metrics"
-```
-
-### 3. Pre-Release Quality Check
-
-Before releasing a new version:
-
-```bash
-# Create a pre-release snapshot
-codeqa snapshot --title "Pre-release v1.2.0"
-
-# Compare with the previous snapshot
-codeqa list  # Note the snapshot indexes
-codeqa compare --first 2 --second 1 --output release_quality_report.md
-
-# Review the report and address critical issues before release
-```
-
-### 4. Refactoring Impact Analysis
-
-Measure the impact of refactoring efforts:
-
-```bash
-# Create pre-refactoring snapshot
-codeqa snapshot --title "Pre-refactoring"
-
-# (Perform your refactoring work)
-
-# Create post-refactoring snapshot
-codeqa snapshot --title "Post-refactoring"
-
-# Compare the snapshots
-codeqa list
-codeqa compare --first 2 --second 1 --output refactoring_impact.md
-```
-
-### 5. Team Code Quality Review
-
-Regular team review of code quality:
-
-```bash
-# Generate the latest snapshot
-codeqa snapshot
-
-# Generate a standalone report for the meeting
-codeqa report --snapshot 1 --output team_review.md
-
-# During the meeting, focus on:
-# - Top complex functions that need refactoring
-# - Linting issues to address
-# - Files with low maintainability
-# - Trends compared to previous review
-```
-
-### Committing Changes to GitHub
-
-1. Add and commit your changes:
-```bash
-git add .
-git commit -m "Release version X.Y.Z with [brief description]"
-```
-
-2. Push to GitHub:
-```bash
-git push origin main
-```
-
-3. Create a GitHub release:
-   - Go to the repository's Releases page
-   - Click "Draft a new release"
-   - Tag version: vX.Y.Z
-   - Title: Version X.Y.Z
-   - Description: Add release notes
-   - Publish release
 
 ## License
 

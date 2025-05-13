@@ -2,7 +2,7 @@
 
 All notable changes to the Code Metrics Tracker project will be documented in this file.
 
-## [0.1.4] - 2023-05-13
+## [0.1.4] - 2023-05-14
 
 ### Added
 - New `metrics_parsing.py` module with dedicated parsers for each tool
