@@ -4,18 +4,29 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Versions](https://img.shields.io/pypi/pyversions/code-metrics-tracker.svg)](https://pypi.org/project/code-metrics-tracker/)
 
-A powerful code quality metrics tracking tool for Python projects that helps teams monitor and improve their codebase over time. Code Metrics Tracker generates comprehensive reports focusing on:
+A powerful code quality metrics tracking tool for Python projects that helps teams monitor and improve their codebase over time. Code Metrics Tracker leverages three specialized tools to provide comprehensive analysis:
+
+- **cloc**: Counts lines of code, comments, and blank lines across programming languages
+- **Ruff**: Identifies linting issues, code style violations, and potential bugs with fast performance
+- **Radon**: Analyzes code complexity (cyclomatic complexity) and maintainability
+
+The tracker generates detailed reports focusing on:
 
 - **Lines of code statistics**: Track code volume and distribution by language
-- **Linting issues**: Detect and monitor code style, potential bugs, and anti-patterns (using Ruff)
-- **Cyclomatic complexity**: Identify complex functions and methods that need refactoring (using Radon)
-- **Maintainability index**: Measure how maintainable your code is over time (using Radon)
+- **Linting issues**: Detect and monitor code style, potential bugs, and anti-patterns
+- **Cyclomatic complexity**: Identify complex functions and methods that need refactoring
+- **Maintainability index**: Measure how maintainable your code is over time
+
+Results are stored in two complementary formats:
+1. **JSON snapshots**: Detailed metrics data stored in versioned JSON files for programmatic analysis
+2. **Markdown reports**: Human-readable CODE_METRICS.md file that tracks metrics over time with trend indicators
 
 Perfect for teams that want to:
 - Track code quality trends over time
 - Identify problematic areas in the codebase
 - Make data-driven refactoring decisions
 - Establish quality standards with measurable metrics
+- Integrate metrics tracking into CI/CD pipelines
 
 ## Installation
 

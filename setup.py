@@ -9,8 +9,8 @@ with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name="code-metrics-tracker",
-    version="0.1.1",
-    description="Code Quality Metrics Tracking Tool for Python Projects",
+    version="0.1.2",
+    description="Code quality metrics tracking tool that combines Ruff, Radon, and cloc to generate detailed trends over time",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="AgileWorks",
