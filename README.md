@@ -12,6 +12,8 @@ A powerful code quality metrics tracking tool for Python projects that helps tea
 
 ## What's New in 0.1.5 (May 2025)
 
+- **New Feature**: Added `--only-on-changes` flag to prevent redundant CODE_METRICS.md updates
+- **GitHub Actions Efficiency**: Improved GitHub workflow to avoid empty commits
 - **Bug Fix**: Fixed an issue with Radon CC JSON parsing where string entries caused errors
 - **Improved Stability**: Enhanced parser to handle different formats of Radon output
 - **Better Error Handling**: Added specific type checking to prevent AttributeError
@@ -136,6 +138,9 @@ codeqa snapshot
 
 # Create a snapshot with a custom report title
 codeqa snapshot --title "Post-Refactoring Metrics"
+
+# Create a snapshot but only update CODE_METRICS.md if there are meaningful changes
+codeqa snapshot --only-on-changes
 ```
 
 #### List Available Snapshots
@@ -336,7 +341,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install code-metrics-tracker
       - name: Generate code quality snapshot
-        run: codeqa snapshot
+        run: codeqa snapshot --only-on-changes  # Only update if there are meaningful changes
       - name: Commit updated CODE_METRICS.md
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
