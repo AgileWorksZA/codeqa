@@ -34,10 +34,10 @@ def is_snapshot_unchanged(current_metrics: Dict[str, Any], previous_metrics: Opt
         
     # Compare summary data fields that would indicate meaningful changes
     summary_fields = [
-        'cloc_stats.total',
-        'ruff_issues_count',
+        'cloc.total',
+        'ruff.issues_count',
         'radon_cc.grade_counts',
-        'radon_mi_grades'
+        'radon_mi.grade_counts'
     ]
     
     # Check each summary field
@@ -55,9 +55,11 @@ def is_snapshot_unchanged(current_metrics: Dict[str, Any], previous_metrics: Opt
                 
             # Compare the values - if they differ, we have a change
             if current_value != previous_value:
+                print(f"Change detected in {field}: {previous_value} -> {current_value}")
                 return False
-        except (KeyError, TypeError):
+        except (KeyError, TypeError) as e:
             # If we can't compare the fields, assume there's a change
+            print(f"Error comparing {field}: {str(e)}")
             return False
             
     # If we get here, all summary data matches
