@@ -111,6 +111,25 @@ class TestRadonParsing(unittest.TestCase):
                 }
             ]
         }
+        
+        # Sample JSON output with string entries (the issue we fixed in v0.1.5)
+        self.radon_json_with_strings = {
+            "test_file.py": [
+                {
+                    "type": "function",
+                    "rank": "C",
+                    "complexity": 16,
+                    "name": "complex_function"
+                },
+                "this is a string entry that should be handled",  # This caused the AttributeError
+                {
+                    "type": "function",
+                    "rank": "A",
+                    "complexity": 1,
+                    "name": "simple_function"
+                }
+            ]
+        }
 
         # Config for testing
         self.test_config = {
@@ -153,6 +172,40 @@ class TestRadonParsing(unittest.TestCase):
         # Verify the functions are sorted by complexity (highest first)
         self.assertTrue(functions[0]['complexity'] >= functions[1]['complexity'],
                       "Functions should be sorted by complexity (highest first)")
+                      
+    @patch('json.loads')
+    @patch('codeqa.metrics.is_project_file', return_value=True)
+    def test_radon_cc_json_parsing_with_string_entries(self, mock_is_project_file, mock_json_loads):
+        """Test that radon CC JSON output with string entries is handled correctly (fix for v0.1.5)."""
+        # Set up the mock to return our sample data with string entries
+        mock_json_loads.return_value = self.radon_json_with_strings
+        
+        # Call the function under test
+        from codeqa.metrics_parsing import parse_radon_cc_json
+        radon_cc_output = json.dumps(self.radon_json_with_strings)
+        
+        # This should not raise an AttributeError anymore
+        result = parse_radon_cc_json(radon_cc_output, self.test_config)
+        
+        # Assert the structure is correct
+        self.assertIn('grade_counts', result)
+        self.assertIn('functions', result)
+        self.assertIn('files', result)
+        
+        # Check functions - we should have 3 entries (2 functions + 1 string that gets default values)
+        functions = result['functions']
+        self.assertEqual(len(functions), 3, "Should have 3 entries including the string one")
+        
+        # Verify the string entry was handled with default values
+        string_entry = None
+        for func in functions:
+            if func['function'] == 'Unknown':
+                string_entry = func
+                break
+                
+        self.assertIsNotNone(string_entry, "Should have an 'Unknown' function from the string entry")
+        self.assertEqual(string_entry['complexity'], 0, "String entry should have default complexity of 0")
+        self.assertEqual(string_entry['grade'], 'X', "String entry should have default grade of 'X'")
 
 
 class TestRuffParsing(unittest.TestCase):
