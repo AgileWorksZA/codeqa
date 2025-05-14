@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install code-metrics-tracker==0.1.5
+          pip install code-metrics-tracker==0.1.6
       
       - name: Generate code quality snapshot
         run: codeqa snapshot --only-on-changes
