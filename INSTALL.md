@@ -8,6 +8,8 @@ Before installing CodeQA, make sure you have:
 2. `pip` package manager
 3. `cloc` command-line tool for counting lines of code
 
+Note: setuptools will be installed automatically as a dependency if not already available.
+
 ## Installing cloc
 
 ### On macOS:

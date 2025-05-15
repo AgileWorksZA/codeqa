@@ -28,6 +28,7 @@ setup(
     },
     python_requires=">=3.7",
     install_requires=[
+        "setuptools>=42.0.0",
         "ruff>=0.0.254",
         "radon>=5.1.0",
     ],

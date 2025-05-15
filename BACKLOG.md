@@ -106,6 +106,13 @@ This document outlines planned improvements, fixes, and refactoring tasks for th
   - Priority: Low
   - Effort: High
 
+- [ ] **Add support for TypeScript projects**
+  - Integrate ESLint for linting TypeScript code
+  - Add a TypeScript complexity analyzer (e.g., ts-complexity)
+  - Create TypeScript-specific templates and configurations
+  - Priority: Medium
+  - Effort: High
+
 ## Documentation Improvements
 
 - [ ] **Enhance function documentation**
