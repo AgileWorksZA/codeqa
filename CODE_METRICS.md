@@ -1134,3 +1134,85 @@ This file tracks code quality metrics over time to help monitor and improve our 
   - 10 high complexity functions
   - 0 files with low maintainability
 
+### May 17, 2025
+
+#### Summary
+
+| Metric | Value | 
+|--------|-------|
+| Lines of Code | 1,489 |
+| Files | 7 |
+| Comments | 659 |
+| Linting Issues | 6 |
+| Cyclomatic Complexity | A:55 B:23 C:7 D:2 E:1 F:0 |
+| Maintainability Index | A:7 B:0 C:0 |
+| Detailed Report | [metrics_20250517_131737.json](metrics/metrics_20250517_131737.json) |
+
+#### Code Statistics by Language
+| Language | Files | Code | Comment | Blank |
+|----------|-------|------|---------|-------|
+| Python | 7 | 1,489 | 659 | 510 |
+
+
+#### Top 10 Complex Files
+| File | Grade | Complexity | Most Complex Function |
+|------|-------|------------|----------------------|
+| codeqa/metrics.py | E | 39 | create_snapshot |
+| codeqa/cli.py | D | 26 | main |
+| tests/test_files/complex_sample.py | C | 19 | very_complex_function |
+| codeqa/snapshot_manager.py | C | 16 | compare_snapshots |
+| tests/test_basic.py | B | 10 | test_snapshot |
+| codeqa/metrics_parsing.py | B | 9 | parse_radon_cc_json |
+| tests/test_files/linting_sample.py | B | 8 | complex_function |
+| tests/test_parsing.py | A | 3 | TestRadonParsing |
+
+
+#### Top 10 Complex Functions/Methods
+| File | Function | Grade | Complexity |
+|------|----------|-------|------------|
+| codeqa/metrics.py | create_snapshot | E | 39 |
+| codeqa/cli.py | main | D | 26 |
+| codeqa/metrics.py | get_code_stats | D | 25 |
+| tests/test_files/complex_sample.py | very_complex_function | C | 19 |
+| codeqa/metrics.py | compare_snapshots | C | 16 |
+| codeqa/snapshot_manager.py | compare_snapshots | C | 16 |
+| tests/test_files/complex_sample.py | complex_method | C | 14 |
+| codeqa/metrics.py | parse_ruff_output | C | 12 |
+| codeqa/metrics.py | get_formatted_trend | C | 12 |
+| codeqa/snapshot_manager.py | get_formatted_trend | C | 12 |
+
+
+#### Top 10 Files with Linting Issues
+| File | Issues |
+|------|--------|
+| tests/test_parsing.py | 4 |
+| codeqa/metrics.py | 1 |
+| codeqa/snapshot_manager.py | 1 |
+
+
+#### Top 10 Files with Low Maintainability
+| File | Grade | Score |
+|------|-------|-------|
+| codeqa/metrics.py | A | 19.05 |
+| codeqa/snapshot_manager.py | A | 36.11 |
+| tests/test_basic.py | A | 51.71 |
+| codeqa/cli.py | A | 60.11 |
+| tests/test_parsing.py | A | 63.65 |
+| codeqa/metrics_parsing.py | A | 65.30 |
+| codeqa/__init__.py | A | 100.00 |
+
+
+#### Trends Since Last Snapshot
+| Metric | Change |
+|--------|--------|
+| Lines of Code | ↑ 0 (0.0%) |
+| Linting Issues | ↑ 0 (0.0%) |
+| Complex Functions | ↑ 0 (0.0%) |
+| Low Maintainability | ↑ 0 |
+
+#### Analysis
+- Critical issues to address:
+  - 6 linting issues
+  - 10 high complexity functions
+  - 0 files with low maintainability
+
