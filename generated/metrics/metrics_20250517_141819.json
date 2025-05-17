@@ -1,0 +1,621 @@
+{
+  "date": "May 17, 2025",
+  "timestamp": "20250517_141819",
+  "config": {
+    "include_paths": [
+      "src",
+      "tests"
+    ],
+    "exclude_patterns": [
+      "migrations",
+      ".coverage",
+      "*.db",
+      "*.log"
+    ]
+  },
+  "cloc": {
+    "total": {
+      "files": 4,
+      "blank": 147,
+      "comment": 171,
+      "code": 572
+    },
+    "by_language": {
+      "Python": {
+        "files": 4,
+        "blank": 147,
+        "comment": 171,
+        "code": 572
+      }
+    }
+  },
+  "ruff": {
+    "issues_count": 33,
+    "issues": [
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/src",
+        "line": 1,
+        "column": 1,
+        "code": "E902",
+        "message": "No such file or directory (os error 2)"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "line": 6,
+        "column": 8,
+        "code": "F401",
+        "message": "`os` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "line": 7,
+        "column": 8,
+        "code": "F401",
+        "message": "`sys` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "line": 8,
+        "column": 8,
+        "code": "F401",
+        "message": "`math` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "line": 9,
+        "column": 8,
+        "code": "F401",
+        "message": "`json` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "line": 10,
+        "column": 8,
+        "code": "F401",
+        "message": "`datetime` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 6,
+        "column": 8,
+        "code": "F401",
+        "message": "`os` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 7,
+        "column": 8,
+        "code": "F401",
+        "message": "`sys` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 8,
+        "column": 8,
+        "code": "F401",
+        "message": "`json` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 9,
+        "column": 8,
+        "code": "F401",
+        "message": "`datetime` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 10,
+        "column": 8,
+        "code": "F401",
+        "message": "`time` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 11,
+        "column": 8,
+        "code": "F401",
+        "message": "`math` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 13,
+        "column": 25,
+        "code": "F401",
+        "message": "`collections.defaultdict` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 13,
+        "column": 38,
+        "code": "F401",
+        "message": "`collections.Counter` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 13,
+        "column": 47,
+        "code": "F401",
+        "message": "`collections.OrderedDict` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 22,
+        "column": 1,
+        "code": "E401",
+        "message": "Multiple imports on one line"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 22,
+        "column": 1,
+        "code": "E402",
+        "message": "Module level import not at top of file"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 22,
+        "column": 8,
+        "code": "F401",
+        "message": "`logging` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 22,
+        "column": 17,
+        "code": "F401",
+        "message": "`random` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 22,
+        "column": 25,
+        "code": "F401",
+        "message": "`re` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 26,
+        "column": 4,
+        "code": "F632",
+        "message": "Use `==` to compare constant literals"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 37,
+        "column": 12,
+        "code": "F821",
+        "message": "Undefined name `undefined_var`"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 40,
+        "column": 28,
+        "code": "F541",
+        "message": "f-string without any placeholders"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 54,
+        "column": 5,
+        "code": "F601",
+        "message": "Dictionary key literal `\"key1\"` repeated"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 58,
+        "column": 1,
+        "code": "E741",
+        "message": "Ambiguous variable name: `l`"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 59,
+        "column": 1,
+        "code": "E741",
+        "message": "Ambiguous variable name: `O`"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 72,
+        "column": 1,
+        "code": "E722",
+        "message": "Do not use bare `except`"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 84,
+        "column": 1,
+        "code": "E402",
+        "message": "Module level import not at top of file"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "line": 84,
+        "column": 8,
+        "code": "F401",
+        "message": "`csv` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "line": 12,
+        "column": 8,
+        "code": "F401",
+        "message": "`os` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "line": 13,
+        "column": 8,
+        "code": "F401",
+        "message": "`tempfile` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "line": 15,
+        "column": 34,
+        "code": "F401",
+        "message": "`unittest.mock.MagicMock` imported but unused"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "line": 18,
+        "column": 20,
+        "code": "F401",
+        "message": "`codeqa.metrics` imported but unused"
+      }
+    ],
+    "files_count": {
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py": 23,
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py": 5,
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py": 4,
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/src": 1
+    }
+  },
+  "radon_cc": {
+    "grade_counts": {
+      "A": 32,
+      "B": 6,
+      "C": 2,
+      "D": 0,
+      "E": 0,
+      "F": 0
+    },
+    "functions": [
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "function": "very_complex_function",
+        "grade": "C",
+        "complexity": 19,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "function": "complex_method",
+        "grade": "C",
+        "complexity": 14,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "test_snapshot",
+        "grade": "B",
+        "complexity": 10,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "function": "medium_complex_function",
+        "grade": "B",
+        "complexity": 9,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "complex_function",
+        "grade": "B",
+        "complexity": 8,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "test_init",
+        "grade": "B",
+        "complexity": 6,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "test_compare",
+        "grade": "B",
+        "complexity": 6,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "function": "ComplexityTestClass",
+        "grade": "B",
+        "complexity": 6,
+        "type": "class"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker",
+        "grade": "A",
+        "complexity": 5,
+        "type": "class"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "test_list",
+        "grade": "A",
+        "complexity": 5,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "test_report",
+        "grade": "A",
+        "complexity": 5,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "function": "medium_method",
+        "grade": "A",
+        "complexity": 5,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "TestRadonParsing",
+        "grade": "A",
+        "complexity": 3,
+        "type": "class"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "test_radon_cc_json_parsing",
+        "grade": "A",
+        "complexity": 3,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "test_radon_cc_json_parsing_with_string_entries",
+        "grade": "A",
+        "complexity": 3,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "run_tests",
+        "grade": "A",
+        "complexity": 3,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "TestRuffParsing",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "TestClocParsing",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "check_cloc_installed",
+        "grade": "A",
+        "complexity": 2,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "SampleClass",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "UndocumentedClass",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "setUp",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "setUp",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "test_ruff_json_parsing",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "setUp",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "function": "test_cloc_json_parsing",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "setup_method",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "teardown_method",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "function": "run_command",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "func_with_mutable_default",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "undefined_name_function",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "list",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "unreachable",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "too_many_args",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "__init__",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "__init__",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "function": "method",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "function": "simple_function",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "function": "__init__",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "function": "simple_method",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      }
+    ],
+    "files": {
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py": {
+        "count": 8,
+        "max_complexity": 19,
+        "max_grade": "C",
+        "function": "very_complex_function"
+      },
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py": {
+        "count": 11,
+        "max_complexity": 10,
+        "max_grade": "B",
+        "function": "test_snapshot"
+      },
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py": {
+        "count": 11,
+        "max_complexity": 8,
+        "max_grade": "B",
+        "function": "complex_function"
+      },
+      "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py": {
+        "count": 10,
+        "max_complexity": 3,
+        "max_grade": "A",
+        "function": "TestRadonParsing"
+      }
+    }
+  },
+  "radon_mi": {
+    "grade_counts": {
+      "A": 4,
+      "B": 0,
+      "C": 0
+    },
+    "files": [
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/complex_sample.py",
+        "grade": "A",
+        "score": 44.38
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_basic.py",
+        "grade": "A",
+        "score": 51.71
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_parsing.py",
+        "grade": "A",
+        "score": 63.65
+      },
+      {
+        "file": "/Users/hjonck/Development/gitprojects/AgileWorksZA/codeqa/tests/test_files/linting_sample.py",
+        "grade": "A",
+        "score": 67.39
+      }
+    ]
+  }
+}

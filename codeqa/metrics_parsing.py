@@ -113,18 +113,12 @@ def parse_ruff_json(output: str, config: Dict[str, Any]) -> List[RuffIssue]:
     Returns:
         List of linting issues found
     """
-    from codeqa.metrics import is_project_file  # Import here to avoid circular imports
-    
     # Parse the JSON output
     issues_data = json.loads(output)
     results: List[RuffIssue] = []
     
     for issue in issues_data:
         file_path = issue.get('filename', '')
-        
-        # Skip files that don't match the project file criteria
-        if not is_project_file(file_path, config):
-            continue
             
         # Create structured issue data
         issue_data: RuffIssue = {
@@ -150,18 +144,12 @@ def parse_radon_cc_json(output: str, config: Dict[str, Any]) -> Dict[str, Any]:
     Returns:
         Dictionary with complexity metrics
     """
-    from codeqa.metrics import is_project_file  # Import here to avoid circular imports
-    
     # Parse the JSON output
     cc_data = json.loads(output)
     cc_results: List[RadonCCFunction] = []
     
     # Process each file
     for file_path, functions in cc_data.items():
-        # Skip files that don't match the project file criteria
-        if not is_project_file(file_path, config):
-            continue
-            
         # Process each function in the file
         for func in functions:
             # Handle both string and dict inputs
@@ -238,7 +226,6 @@ def parse_radon_mi(output: str, config: Dict[str, Any]) -> List[Dict[str, Any]]:
     Returns:
         List of maintainability metrics for files
     """
-    from codeqa.metrics import is_project_file  # Import here to avoid circular imports
     import re
     
     results = []
@@ -250,8 +237,6 @@ def parse_radon_mi(output: str, config: Dict[str, Any]) -> List[Dict[str, Any]]:
         parts = line.strip().split(' - ')
         if len(parts) == 2:
             file_path = parts[0].strip()
-            if not is_project_file(file_path, config):
-                continue
                 
             mi_info = parts[1].strip()
             grade = mi_info[0]

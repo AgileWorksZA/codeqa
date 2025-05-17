@@ -92,9 +92,11 @@ Default configuration:
 ```json
 {
   "include_paths": ["src", "tests"],
-  "exclude_patterns": ["venv", "site-packages", "__pycache__", ".pyc"]
+  "exclude_patterns": ["migrations", ".coverage", "*.db", "*.log"]
 }
 ```
+
+Note: Many common patterns (like `.git`, `.venv`, `__pycache__`) are already excluded by the tools themselves, so the config only needs project-specific exclusions.
 
 ## Output Files
 

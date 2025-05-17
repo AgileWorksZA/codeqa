@@ -24,7 +24,7 @@ CONFIG_FILE = "codeqa.json"
 # Default configuration if no config file is found
 DEFAULT_CONFIG = {
     "include_paths": ["src", "tests"],
-    "exclude_patterns": ["venv", "site-packages", "__pycache__", ".pyc"]
+    "exclude_patterns": ["migrations", ".coverage", "*.db", "*.log"]
 }
 
 
@@ -152,6 +152,99 @@ def is_project_file(filepath, config):
     return True
 
 
+def build_cloc_exclude_args(config):
+    """
+    Build exclude arguments for cloc based on configuration.
+    
+    Args:
+        config: Configuration dictionary
+        
+    Returns:
+        String with exclude arguments for cloc
+    """
+    exclude_dirs = []
+    exclude_exts = []
+    
+    for pattern in config.get("exclude_patterns", []):
+        if pattern.startswith("."):
+            # File extension (e.g., .pyc)
+            exclude_exts.append(pattern[1:])
+        elif "/" not in pattern and "." not in pattern:
+            # Simple directory name
+            exclude_dirs.append(pattern)
+        else:
+            # More complex pattern - add as directory exclude
+            exclude_dirs.append(pattern)
+    
+    args = ""
+    if exclude_dirs:
+        args += f" --exclude-dir={','.join(exclude_dirs)}"
+    if exclude_exts:
+        args += f" --exclude-ext={','.join(exclude_exts)}"
+    
+    return args
+
+
+def build_ruff_exclude_args(config):
+    """
+    Build exclude arguments for Ruff based on configuration.
+    
+    Args:
+        config: Configuration dictionary
+        
+    Returns:
+        String with exclude arguments for Ruff
+    """
+    exclude_patterns = []
+    
+    for pattern in config.get("exclude_patterns", []):
+        if pattern.startswith("."):
+            # File extension (e.g., .pyc) -> convert to glob
+            exclude_patterns.append(f"*{pattern}")
+        elif "/" not in pattern and "." not in pattern:
+            # Simple directory name -> match anywhere
+            exclude_patterns.append(f"**/{pattern}/**")
+        else:
+            # Already a pattern
+            exclude_patterns.append(pattern)
+    
+    args = ""
+    for pattern in exclude_patterns:
+        args += f" --exclude '{pattern}'"
+    
+    return args
+
+
+def build_radon_exclude_args(config):
+    """
+    Build exclude arguments for Radon based on configuration.
+    
+    Args:
+        config: Configuration dictionary
+        
+    Returns:
+        String with exclude arguments for Radon
+    """
+    exclude_patterns = []
+    
+    for pattern in config.get("exclude_patterns", []):
+        if pattern.startswith("."):
+            # File extension (e.g., .pyc) -> convert to glob
+            exclude_patterns.append(f"*{pattern}")
+        elif "/" not in pattern and "." not in pattern:
+            # Simple directory name -> match anywhere
+            exclude_patterns.append(f"*/{pattern}/*")
+        else:
+            # Already a pattern
+            exclude_patterns.append(pattern)
+    
+    args = ""
+    for pattern in exclude_patterns:
+        args += f" --exclude '{pattern}'"
+    
+    return args
+
+
 def run_command(command):
     """
     Run a shell command and return its output.
@@ -198,8 +291,11 @@ def get_code_stats(config):
     
     print(f"Running code statistics on: {include_paths}")
     
-    # Run cloc command with JSON output
-    cloc_output = run_command(f"cloc {include_paths} --json")
+    # Build exclude arguments
+    exclude_args = build_cloc_exclude_args(config)
+    
+    # Run cloc command with JSON output and exclude patterns
+    cloc_output = run_command(f"cloc {include_paths} --json{exclude_args}")
     if cloc_output is None:
         return {
             'total': {'code': 0, 'blank': 0, 'comment': 0, 'files': 0},
@@ -516,8 +612,11 @@ def create_snapshot(config_path=None, verbose=False, only_on_changes=False):
     paths_to_analyze = [os.path.join(root_dir, path) for path in config["include_paths"]]
     paths_str = " ".join(paths_to_analyze)
     
-    # Run Ruff with JSON output format
-    ruff_cmd = f"ruff check {paths_str} --output-format json --no-fix || true"
+    # Build exclude arguments for Ruff
+    ruff_exclude_args = build_ruff_exclude_args(config)
+    
+    # Run Ruff with JSON output format and exclude patterns
+    ruff_cmd = f"ruff check {paths_str} --output-format json --no-fix{ruff_exclude_args} || true"
     print(f"Running linting check: {ruff_cmd}")
     ruff_output = run_command(ruff_cmd)
     
@@ -539,8 +638,11 @@ def create_snapshot(config_path=None, verbose=False, only_on_changes=False):
             'files_count': count_issues_by_file(ruff_issues)
         }
     
-    # Run Radon CC with JSON output format
-    radon_cc_output = run_command(f"radon cc {paths_str} -a -s --json")
+    # Build exclude arguments for Radon
+    radon_exclude_args = build_radon_exclude_args(config)
+    
+    # Run Radon CC with JSON output format and exclude patterns
+    radon_cc_output = run_command(f"radon cc {paths_str} -a -s --json{radon_exclude_args}")
     if radon_cc_output is None:
         metrics_data['radon_cc'] = {'error': 'Error running Radon CC'}
     else:
@@ -552,8 +654,8 @@ def create_snapshot(config_path=None, verbose=False, only_on_changes=False):
         except json.JSONDecodeError:
             metrics_data['radon_cc'] = {'error': 'Error parsing Radon CC JSON output'}
     
-    # Run Radon MI
-    radon_mi_output = run_command(f"radon mi {paths_str} -s")
+    # Run Radon MI with exclude patterns
+    radon_mi_output = run_command(f"radon mi {paths_str} -s{radon_exclude_args}")
     if radon_mi_output is None:
         metrics_data['radon_mi'] = {'error': 'Error running Radon MI'}
     else:
