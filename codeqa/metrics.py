@@ -169,12 +169,16 @@ def build_cloc_exclude_args(config):
         if pattern.startswith("."):
             # File extension (e.g., .pyc)
             exclude_exts.append(pattern[1:])
+        elif pattern.startswith("*."):
+            # Wildcard file extension (e.g., *.db, *.log)
+            exclude_exts.append(pattern[2:])
         elif "/" not in pattern and "." not in pattern:
             # Simple directory name
             exclude_dirs.append(pattern)
-        else:
-            # More complex pattern - add as directory exclude
+        elif "/" in pattern and "*" not in pattern:
+            # Directory path without wildcards (e.g., src/temp, config/test)
             exclude_dirs.append(pattern)
+        # Skip patterns with wildcards in paths (e.g., config/*.yaml) as cloc doesn't support them
     
     args = ""
     if exclude_dirs:

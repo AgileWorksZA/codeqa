@@ -2,6 +2,15 @@
 
 All notable changes to the Code Metrics Tracker project will be documented in this file.
 
+## [0.1.9] - 2025-05-22
+
+### Fixed
+- Fixed cloc command failure when exclude patterns contain wildcards (e.g., `*.db`, `config/*.yaml`)
+- Improved pattern handling in `build_cloc_exclude_args()` to correctly:
+  - Convert `*.ext` patterns to `--exclude-ext=ext` 
+  - Skip complex wildcard patterns that cloc doesn't support
+  - Only pass simple directory names and paths to `--exclude-dir`
+
 ## [0.1.6] - 2025-05-14
 
 ### Added

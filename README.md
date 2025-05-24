@@ -40,6 +40,12 @@ Code Metrics Tracker combines three industry-standard tools to provide comprehen
 - **Ruff**: Identifies linting issues, code style violations, and potential bugs with fast performance
 - **Radon**: Analyzes code complexity (cyclomatic complexity) and maintainability
 
+## What's New in 0.1.9 (May 2025)
+
+- **Bug Fix**: Fixed cloc command failure when exclude patterns contain wildcards (e.g., `*.db`, `config/*.yaml`)
+- **GitHub Actions**: Resolved "cannot specify directory paths" error in CI/CD workflows
+- **Pattern Handling**: Improved exclude pattern logic to correctly handle wildcards and file extensions
+
 ## What's New in 0.1.6 (May 2025)
 
 - **Improved Detection**: Fixed `--only-on-changes` flag to correctly identify meaningful changes
@@ -759,8 +765,8 @@ jobs:
   code-quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       - name: Install cloc
@@ -772,11 +778,26 @@ jobs:
       - name: Generate code quality snapshot
         run: codeqa snapshot --only-on-changes  # Only update if there are meaningful changes
       - name: Commit updated CODE_METRICS.md
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update code quality metrics"
           file_pattern: CODE_METRICS.md generated/metrics/*
 ```
+
+### Important: Use Latest Action Versions
+
+**Always use the latest versions of GitHub Actions** to avoid deprecation warnings and security issues:
+
+- ✅ `actions/checkout@v4` (not v3)
+- ✅ `actions/setup-python@v5` (not v4) 
+- ✅ `stefanzweifel/git-auto-commit-action@v5` (not v4)
+
+Using deprecated versions like `actions/checkout@v3` or `actions/upload-artifact@v3` will cause workflow failures with messages like:
+```
+This request has been automatically failed because it uses a deprecated version of `actions/upload-artifact: v3`.
+```
+
+The template above uses the latest stable versions as of 2025.
 
 ## Development Guide
 
