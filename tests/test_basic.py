@@ -95,8 +95,9 @@ def function_b(a, b, c):
 
     def test_snapshot(self):
         """Test the snapshot command."""
-        # First make sure we have initialized properly
-        self.run_command("codeqa init")
+        # The setup_method already created codeqa.json, but we need CODE_METRICS.md
+        # Force reinit to ensure we have all required files
+        self.run_command("codeqa init --force")
         
         # Now create a snapshot
         stdout, stderr, returncode = self.run_command("codeqa snapshot")

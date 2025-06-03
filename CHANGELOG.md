@@ -2,6 +2,48 @@
 
 All notable changes to the Code Metrics Tracker project will be documented in this file.
 
+## [0.1.17] - 2025-06-03
+
+### Changed
+- **BREAKING**: Changed default behavior to only update CODE_METRICS.md when significant changes are detected
+- Replaced `--only-on-changes` flag with `--force-update` flag for opposite behavior
+- Now preserves CODE_METRICS.md unless there are meaningful metric changes or `--force-update` is used
+
+## [0.1.16] - 2025-06-03
+
+### Fixed
+- Fixed CODE_METRICS.md updates - new snapshots now correctly appear at the top of Historical Snapshots section
+- Added verbose feedback for successful file updates
+
+## [0.1.15] - 2025-06-03
+
+### Changed
+- Reduced verbose output in production mode - detailed command output only shown with `--verbose` flag
+- Added user-friendly progress messages for each analysis step
+- Improved output clarity with emojis for verbose mode
+
+## [0.1.14] - 2025-06-03
+
+### Fixed
+- Fixed cloc error "cannot specify directory paths" for patterns containing forward slashes
+- Directory path patterns (like `data/simplepay/exports`) now correctly use regex instead of `--exclude-dir`
+
+## [0.1.13] - 2025-06-03
+
+### Fixed
+- Fixed pkg_resources deprecation warning by using importlib.resources for Python 3.7+
+- Improved compatibility with Python 3.13 and setuptools 81+
+
+## [0.1.12] - 2025-06-03
+
+### Added
+- New `--force` flag for `codeqa init` to backup existing config and reinitialize
+- Automatic stripping of inline comments from .gitignore patterns (e.g., `*.db # Database files` → `*.db`)
+
+### Fixed
+- Fixed issue where inline comments in .gitignore patterns would cause cloc errors
+- Improved backup naming for multiple force initializations (adds incremental numbers)
+
 ## [0.1.11] - 2025-06-03
 
 ### Added

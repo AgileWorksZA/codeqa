@@ -69,6 +69,11 @@ class GitignoreParser:
                     if line.startswith('!'):
                         continue
                     
+                    # Strip inline comments (but be careful with # in patterns)
+                    # Only strip if there's a space before the #
+                    if ' #' in line:
+                        line = line.split(' #')[0].strip()
+                    
                     # Remove trailing slashes for consistency
                     # but remember if it was a directory pattern
                     is_dir = line.endswith('/')

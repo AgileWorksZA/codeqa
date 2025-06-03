@@ -1,3 +1,3 @@
 """CodeQA - Code Quality Metrics Tracking Tool."""
 
-__version__ = "0.1.11"
+__version__ = "0.1.17"

@@ -13,7 +13,12 @@ import re
 import shutil
 import subprocess
 from collections import defaultdict
-import pkg_resources
+try:
+    from importlib import resources
+except ImportError:
+    # Python < 3.7
+    import pkg_resources
+    resources = None
 from codeqa.pattern_translator import PatternTranslator
 from codeqa.gitignore_parser import GitignoreParser
 
@@ -30,7 +35,7 @@ DEFAULT_CONFIG = {
 }
 
 
-def init_project(config_path=None, from_gitignore=False, all_gitignore_patterns=False):
+def init_project(config_path=None, from_gitignore=False, all_gitignore_patterns=False, force=False):
     """
     Initialize a project with code quality tracking.
     
@@ -38,70 +43,87 @@ def init_project(config_path=None, from_gitignore=False, all_gitignore_patterns=
         config_path: Optional path to a custom config file
         from_gitignore: If True, initialize exclude patterns from .gitignore
         all_gitignore_patterns: If True, include all .gitignore patterns without filtering
+        force: If True, backup existing config and reinitialize
     """
+    # Handle existing config file
+    if os.path.exists(CONFIG_FILE):
+        if force:
+            # Create backup
+            backup_name = CONFIG_FILE + '.bak'
+            # If backup already exists, add a number
+            if os.path.exists(backup_name):
+                i = 1
+                while os.path.exists(f"{CONFIG_FILE}.bak{i}"):
+                    i += 1
+                backup_name = f"{CONFIG_FILE}.bak{i}"
+            
+            import shutil
+            shutil.copy2(CONFIG_FILE, backup_name)
+            print(f"Backed up existing config to: {backup_name}")
+        else:
+            print(f"Configuration file already exists: {CONFIG_FILE}")
+            if from_gitignore:
+                print("Use --force to backup and overwrite existing configuration")
+            return
+    
     # Create config file
-    if not os.path.exists(CONFIG_FILE):
-        config = DEFAULT_CONFIG.copy()
-        
-        # Load from custom config if provided
-        if config_path and os.path.exists(config_path):
-            try:
-                with open(config_path, 'r') as f:
-                    config = json.load(f)
-            except json.JSONDecodeError:
-                print(f"Warning: Could not parse config file {config_path}. Using default config.")
-        
-        # Load patterns from .gitignore if requested
-        if from_gitignore:
-            gitignore_files = GitignoreParser.find_gitignore_files(os.getcwd())
-            if gitignore_files:
-                print(f"\nFound .gitignore file(s): {', '.join(gitignore_files)}")
-                
-                # Parse all .gitignore files
-                gitignore_patterns = []
-                for gitignore_file in gitignore_files:
-                    patterns = GitignoreParser.parse_gitignore_file(gitignore_file)
-                    gitignore_patterns.extend(patterns)
-                
-                # Filter patterns unless --all-gitignore-patterns is used
-                filtered_patterns = GitignoreParser.filter_patterns(
-                    gitignore_patterns, 
-                    include_all=all_gitignore_patterns
-                )
-                
-                # Merge with default patterns
-                config['exclude_patterns'] = GitignoreParser.merge_with_defaults(
-                    filtered_patterns,
-                    config.get('exclude_patterns', [])
-                )
-                
-                # Suggest additional patterns
-                suggestions = GitignoreParser.suggest_additional_patterns(config['exclude_patterns'])
-                if suggestions:
-                    print("\nConsider adding these additional patterns:")
-                    for pattern in suggestions:
-                        print(f"  - {pattern}")
-                
-                print(f"\nInitialized with {len(filtered_patterns)} patterns from .gitignore")
-            else:
-                print("\nNo .gitignore file found in the current directory")
-                
-        with open(CONFIG_FILE, 'w') as f:
-            json.dump(config, f, indent=2)
-        print(f"\nCreated configuration file: {CONFIG_FILE}")
-        
-        # Show the user what was created
-        print("\nConfiguration:")
-        print(f"  Include paths: {config['include_paths']}")
-        print(f"  Exclude patterns ({len(config['exclude_patterns'])}):")
-        for pattern in config['exclude_patterns'][:10]:  # Show first 10
-            print(f"    - {pattern}")
-        if len(config['exclude_patterns']) > 10:
-            print(f"    ... and {len(config['exclude_patterns']) - 10} more patterns")
-    else:
-        print(f"Configuration file already exists: {CONFIG_FILE}")
-        if from_gitignore:
-            print("Use --force to overwrite existing configuration")
+    config = DEFAULT_CONFIG.copy()
+    
+    # Load from custom config if provided
+    if config_path and os.path.exists(config_path):
+        try:
+            with open(config_path, 'r') as f:
+                config = json.load(f)
+        except json.JSONDecodeError:
+            print(f"Warning: Could not parse config file {config_path}. Using default config.")
+    
+    # Load patterns from .gitignore if requested
+    if from_gitignore:
+        gitignore_files = GitignoreParser.find_gitignore_files(os.getcwd())
+        if gitignore_files:
+            print(f"\nFound .gitignore file(s): {', '.join(gitignore_files)}")
+            
+            # Parse all .gitignore files
+            gitignore_patterns = []
+            for gitignore_file in gitignore_files:
+                patterns = GitignoreParser.parse_gitignore_file(gitignore_file)
+                gitignore_patterns.extend(patterns)
+            
+            # Filter patterns unless --all-gitignore-patterns is used
+            filtered_patterns = GitignoreParser.filter_patterns(
+                gitignore_patterns, 
+                include_all=all_gitignore_patterns
+            )
+            
+            # Merge with default patterns
+            config['exclude_patterns'] = GitignoreParser.merge_with_defaults(
+                filtered_patterns,
+                config.get('exclude_patterns', [])
+            )
+            
+            # Suggest additional patterns
+            suggestions = GitignoreParser.suggest_additional_patterns(config['exclude_patterns'])
+            if suggestions:
+                print("\nConsider adding these additional patterns:")
+                for pattern in suggestions:
+                    print(f"  - {pattern}")
+            
+            print(f"\nInitialized with {len(filtered_patterns)} patterns from .gitignore")
+        else:
+            print("\nNo .gitignore file found in the current directory")
+            
+    with open(CONFIG_FILE, 'w') as f:
+        json.dump(config, f, indent=2)
+    print(f"\nCreated configuration file: {CONFIG_FILE}")
+    
+    # Show the user what was created
+    print("\nConfiguration:")
+    print(f"  Include paths: {config['include_paths']}")
+    print(f"  Exclude patterns ({len(config['exclude_patterns'])}):")
+    for pattern in config['exclude_patterns'][:10]:  # Show first 10
+        print(f"    - {pattern}")
+    if len(config['exclude_patterns']) > 10:
+        print(f"    ... and {len(config['exclude_patterns']) - 10} more patterns")
     
     # Create metrics directory
     os.makedirs(METRICS_DIR, exist_ok=True)
@@ -110,11 +132,32 @@ def init_project(config_path=None, from_gitignore=False, all_gitignore_patterns=
     # Create CODE_METRICS.md if it doesn't exist
     if not os.path.exists(METRICS_FILE):
         # Get template from package
-        template_path = pkg_resources.resource_filename('codeqa', 'templates/CODE_METRICS.md.template')
-        
-        if os.path.exists(template_path):
-            shutil.copy(template_path, METRICS_FILE)
+        if resources:
+            # Python 3.7+
+            try:
+                if hasattr(resources, 'files'):
+                    # Python 3.9+
+                    template_content = (resources.files('codeqa') / 'templates' / 'CODE_METRICS.md.template').read_text()
+                else:
+                    # Python 3.7-3.8
+                    with resources.path('codeqa.templates', 'CODE_METRICS.md.template') as template_path:
+                        with open(template_path, 'r') as f:
+                            template_content = f.read()
+                with open(METRICS_FILE, 'w') as f:
+                    f.write(template_content)
+            except Exception:
+                # Fallback if template isn't found
+                template_content = None
         else:
+            # Python < 3.7 - use pkg_resources
+            template_path = pkg_resources.resource_filename('codeqa', 'templates/CODE_METRICS.md.template')
+            if os.path.exists(template_path):
+                shutil.copy(template_path, METRICS_FILE)
+                template_content = True
+            else:
+                template_content = None
+        
+        if not template_content:
             # Fallback if template isn't found
             with open(METRICS_FILE, 'w') as f:
                 f.write("""# Code Quality Metrics
@@ -236,11 +279,8 @@ def build_cloc_exclude_args(config):
         elif '/' not in pattern and '.' not in pattern and '*' not in pattern:
             # Simple directory name without wildcards or paths
             simple_dirs.append(pattern)
-        elif "/" in pattern and "*" not in pattern:
-            # Directory path without wildcards (e.g., src/temp, config/test)
-            simple_dirs.append(pattern)
         else:
-            # Complex pattern - needs regex
+            # Any pattern with paths, wildcards, or complex structure - needs regex
             complex_patterns.append(pattern)
     
     args = ""
@@ -355,19 +395,21 @@ def run_command(command):
     return output
 
 
-def get_code_stats(config):
+def get_code_stats(config, verbose=False):
     """
     Get code statistics using cloc.
     Returns a dictionary with language statistics and line counts.
     
     Args:
         config: Configuration dictionary containing paths to analyze
+        verbose: Whether to print detailed progress information
     """
     # Get paths from config
     root_dir = os.getcwd()
     include_paths = " ".join([os.path.join(root_dir, path) for path in config["include_paths"]])
     
-    print(f"Running code statistics on: {include_paths}")
+    if verbose:
+        print(f"Running code statistics on: {include_paths}")
     
     # Build exclude arguments
     exclude_args = build_cloc_exclude_args(config)
@@ -682,7 +724,11 @@ def create_snapshot(config_path=None, verbose=False, only_on_changes=False):
         print("")
     
     # Get code stats using cloc
-    code_stats = get_code_stats(config)
+    if verbose:
+        print("\n📊 Running code statistics...")
+    else:
+        print("Analyzing code quality...")
+    code_stats = get_code_stats(config, verbose=verbose)
     metrics_data['cloc'] = code_stats
     
     # Build the paths to analyze
@@ -695,7 +741,10 @@ def create_snapshot(config_path=None, verbose=False, only_on_changes=False):
     
     # Run Ruff with JSON output format and exclude patterns
     ruff_cmd = f"ruff check {paths_str} --output-format json --no-fix{ruff_exclude_args} || true"
-    print(f"Running linting check: {ruff_cmd}")
+    if verbose:
+        print(f"\n🔍 Running linting check: {ruff_cmd}")
+    else:
+        print("Running linting analysis...")
     ruff_output = run_command(ruff_cmd)
     
     if ruff_output is None:
@@ -720,7 +769,12 @@ def create_snapshot(config_path=None, verbose=False, only_on_changes=False):
     radon_exclude_args = build_radon_exclude_args(config)
     
     # Run Radon CC with JSON output format and exclude patterns
-    radon_cc_output = run_command(f"radon cc {paths_str} -a -s --json{radon_exclude_args}")
+    radon_cc_cmd = f"radon cc {paths_str} -a -s --json{radon_exclude_args}"
+    if verbose:
+        print(f"\n🧠 Running complexity analysis: {radon_cc_cmd}")
+    else:
+        print("Running complexity analysis...")
+    radon_cc_output = run_command(radon_cc_cmd)
     if radon_cc_output is None:
         metrics_data['radon_cc'] = {'error': 'Error running Radon CC'}
     else:
@@ -733,7 +787,12 @@ def create_snapshot(config_path=None, verbose=False, only_on_changes=False):
             metrics_data['radon_cc'] = {'error': 'Error parsing Radon CC JSON output'}
     
     # Run Radon MI with exclude patterns
-    radon_mi_output = run_command(f"radon mi {paths_str} -s{radon_exclude_args}")
+    radon_mi_cmd = f"radon mi {paths_str} -s{radon_exclude_args}"
+    if verbose:
+        print(f"\n⚙️  Running maintainability analysis: {radon_mi_cmd}")
+    else:
+        print("Running maintainability analysis...")
+    radon_mi_output = run_command(radon_mi_cmd)
     if radon_mi_output is None:
         metrics_data['radon_mi'] = {'error': 'Error running Radon MI'}
     else:
@@ -974,7 +1033,7 @@ def create_snapshot(config_path=None, verbose=False, only_on_changes=False):
     return markdown, json_path, unchanged
 
 
-def update_metrics_file(snapshot):
+def update_metrics_file(snapshot, verbose=False):
     """Update the CODE_METRICS.md file with the new snapshot."""
     if not os.path.exists(METRICS_FILE):
         print(f"Error: {METRICS_FILE} not found")
@@ -990,16 +1049,20 @@ def update_metrics_file(snapshot):
             print(f"Error: Could not find '{pattern}' section in {METRICS_FILE}")
             return False
         
-        # Insert at the end of the section
+        # Insert new snapshot at the beginning of the Historical Snapshots section
         parts = content.split(pattern)
         if len(parts) != 2:
             print(f"Error: Unexpected format in {METRICS_FILE}")
             return False
         
-        updated_content = parts[0] + pattern + parts[1].rstrip() + "\n\n" + snapshot + "\n"
+        # Add the new snapshot right after the "## Historical Snapshots" header
+        updated_content = parts[0] + pattern + "\n\n" + snapshot + "\n" + parts[1]
         
         with open(METRICS_FILE, 'w') as f:
             f.write(updated_content)
+        
+        if verbose:
+            print(f"✅ Successfully updated {METRICS_FILE}")
         
         return True
     except Exception as e:

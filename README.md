@@ -40,6 +40,13 @@ Code Metrics Tracker combines three industry-standard tools to provide comprehen
 - **Ruff**: Identifies linting issues, code style violations, and potential bugs with fast performance
 - **Radon**: Analyzes code complexity (cyclomatic complexity) and maintainability
 
+## What's New in 0.1.12 (June 2025)
+
+- **New Feature**: Added `--force` flag to reinitialize configuration, backing up existing config
+- **Enhanced Parsing**: Automatic stripping of inline comments from .gitignore patterns
+- **Bug Fix**: Fixed cloc errors caused by inline comments in patterns (e.g., `*.db # Database files`)
+- **Improved Backup**: Multiple force inits create numbered backups (codeqa.json.bak, .bak1, .bak2, etc.)
+
 ## What's New in 0.1.11 (June 2025)
 
 - **New Feature**: Added `--from-gitignore` flag to initialize exclude patterns from .gitignore file
@@ -186,6 +193,9 @@ codeqa init --from-gitignore
 # Include ALL .gitignore patterns (including IDE files, logs, etc.)
 codeqa init --from-gitignore --all-gitignore-patterns
 
+# Force reinitialization, backing up existing config
+codeqa init --from-gitignore --force
+
 # After initialization, you can edit codeqa.json to customize
 # which directories to include/exclude
 ```
@@ -193,6 +203,10 @@ codeqa init --from-gitignore --all-gitignore-patterns
 ##### Initializing from .gitignore
 
 The `--from-gitignore` option reads your project's `.gitignore` file and automatically configures exclude patterns. This ensures consistency between what's ignored by git and what's excluded from code analysis.
+
+**Note**: Inline comments in .gitignore patterns are automatically stripped. For example:
+- `*.db # Database files` becomes `*.db`
+- `venv/ # Virtual environment` becomes `venv/`
 
 By default, some patterns are filtered out as they might contain code you want to analyze:
 - IDE configuration files (`.idea/`, `.vscode/`)

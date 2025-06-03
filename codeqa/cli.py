@@ -28,14 +28,16 @@ def main():
         help='Initialize exclude patterns from .gitignore file')
     init_parser.add_argument('--all-gitignore-patterns', action='store_true',
         help='Include all .gitignore patterns without filtering (use with --from-gitignore)')
+    init_parser.add_argument('--force', action='store_true',
+        help='Force reinitialization, backing up existing config to codeqa.json.bak')
     
     # Snapshot command
     snapshot_parser = subparsers.add_parser('snapshot', 
         help='Create a new code quality snapshot and update CODE_METRICS.md')
     snapshot_parser.add_argument('--config', help='Path to a custom config file')
     snapshot_parser.add_argument('--verbose', action='store_true', help='Print detailed information during processing')
-    snapshot_parser.add_argument('--only-on-changes', action='store_true', 
-        help='Only update CODE_METRICS.md if significant changes detected since last snapshot')
+    snapshot_parser.add_argument('--force-update', action='store_true', 
+        help='Force update CODE_METRICS.md even if no significant changes detected since last snapshot')
     
     # List command
     subparsers.add_parser('list', 
@@ -71,13 +73,17 @@ def main():
         config_path = args.config if hasattr(args, 'config') else None
         from_gitignore = args.from_gitignore if hasattr(args, 'from_gitignore') else False
         all_patterns = args.all_gitignore_patterns if hasattr(args, 'all_gitignore_patterns') else False
-        init_project(config_path, from_gitignore=from_gitignore, all_gitignore_patterns=all_patterns)
+        force = args.force if hasattr(args, 'force') else False
+        init_project(config_path, from_gitignore=from_gitignore, all_gitignore_patterns=all_patterns, force=force)
         return 0
     
     elif args.command == 'snapshot':
         # Create snapshot
         config_path = args.config if hasattr(args, 'config') else None
-        only_on_changes = args.only_on_changes if hasattr(args, 'only_on_changes') else False
+        force_update = args.force_update if hasattr(args, 'force_update') else False
+        
+        # Default behavior is to only update on changes (unless --force-update is used)
+        only_on_changes = not force_update
         
         snapshot, json_path, unchanged = create_snapshot(
             config_path=config_path,
@@ -85,11 +91,13 @@ def main():
             only_on_changes=only_on_changes
         )
         
-        # Only update the metrics file if we have changes or if the flag is not set
-        if unchanged and only_on_changes:
+        # Only update the metrics file if we have changes or if force_update is set
+        if unchanged and not force_update:
             print("Snapshot created but CODE_METRICS.md not updated (no significant changes)")
+            print(f"Detailed metrics saved to {json_path}")
+            print("Use --force-update to update CODE_METRICS.md anyway")
             return 0
-        elif update_metrics_file(snapshot):
+        elif update_metrics_file(snapshot, verbose=args.verbose if hasattr(args, 'verbose') else False):
             print("Snapshot added to CODE_METRICS.md")
             print(f"Detailed metrics saved to {json_path}")
             return 0
