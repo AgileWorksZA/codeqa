@@ -2,6 +2,27 @@
 
 All notable changes to the Code Metrics Tracker project will be documented in this file.
 
+## [0.1.20] - 2025-06-03
+
+### Added
+- Added `--version` command to display the current codeqa version
+- Added cloc metrics documentation to CODE_METRICS.md template explaining how lines are counted
+- Enhanced documentation to include cloc metrics definitions alongside Ruff and Radon explanations
+
+## [0.1.19] - 2025-06-03
+
+### Enhanced
+- Updated CODE_METRICS.md template to include cloc metrics documentation
+- Added explanations for Lines of Code, Files, and Comments metrics from cloc
+- Improved consistency in metrics documentation format
+
+## [0.1.18] - 2025-06-03
+
+### Fixed
+- Fixed `codeqa init` to create both `CODE_METRICS.md` and `codeqa.json` files independently
+- Now creates missing files even if one already exists (e.g., creates `CODE_METRICS.md` if only `codeqa.json` exists)
+- Improved user messaging to clearly indicate which files were created vs which already existed
+
 ## [0.1.17] - 2025-06-03
 
 ### Changed

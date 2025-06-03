@@ -4,6 +4,12 @@ This file tracks code quality metrics over time to help monitor and improve our 
 
 ## Metrics Definitions
 
+### cloc Metrics
+
+- **Lines of Code**: Physical lines containing source code (excludes blank lines and comments)
+- **Files**: Number of files analyzed by language type
+- **Comments**: Lines containing comments or documentation
+
 ### Ruff Metrics
 
 - **Issues Count**: Total number of linting issues detected by Ruff

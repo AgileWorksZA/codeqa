@@ -45,6 +45,8 @@ def init_project(config_path=None, from_gitignore=False, all_gitignore_patterns=
         all_gitignore_patterns: If True, include all .gitignore patterns without filtering
         force: If True, backup existing config and reinitialize
     """
+    config_created = False
+    
     # Handle existing config file
     if os.path.exists(CONFIG_FILE):
         if force:
@@ -60,76 +62,82 @@ def init_project(config_path=None, from_gitignore=False, all_gitignore_patterns=
             import shutil
             shutil.copy2(CONFIG_FILE, backup_name)
             print(f"Backed up existing config to: {backup_name}")
+            config_created = True
         else:
             print(f"Configuration file already exists: {CONFIG_FILE}")
             if from_gitignore:
                 print("Use --force to backup and overwrite existing configuration")
-            return
+            # Don't return - we might still need to create CODE_METRICS.md
+    else:
+        config_created = True
     
-    # Create config file
-    config = DEFAULT_CONFIG.copy()
+    # Create config file if needed
+    if config_created:
+        config = DEFAULT_CONFIG.copy()
+        
+        # Load from custom config if provided
+        if config_path and os.path.exists(config_path):
+            try:
+                with open(config_path, 'r') as f:
+                    config = json.load(f)
+            except json.JSONDecodeError:
+                print(f"Warning: Could not parse config file {config_path}. Using default config.")
+        
+        # Load patterns from .gitignore if requested
+        if from_gitignore:
+            gitignore_files = GitignoreParser.find_gitignore_files(os.getcwd())
+            if gitignore_files:
+                print(f"\nFound .gitignore file(s): {', '.join(gitignore_files)}")
+                
+                # Parse all .gitignore files
+                gitignore_patterns = []
+                for gitignore_file in gitignore_files:
+                    patterns = GitignoreParser.parse_gitignore_file(gitignore_file)
+                    gitignore_patterns.extend(patterns)
+                
+                # Filter patterns unless --all-gitignore-patterns is used
+                filtered_patterns = GitignoreParser.filter_patterns(
+                    gitignore_patterns, 
+                    include_all=all_gitignore_patterns
+                )
+                
+                # Merge with default patterns
+                config['exclude_patterns'] = GitignoreParser.merge_with_defaults(
+                    filtered_patterns,
+                    config.get('exclude_patterns', [])
+                )
+                
+                # Suggest additional patterns
+                suggestions = GitignoreParser.suggest_additional_patterns(config['exclude_patterns'])
+                if suggestions:
+                    print("\nConsider adding these additional patterns:")
+                    for pattern in suggestions:
+                        print(f"  - {pattern}")
+                
+                print(f"\nInitialized with {len(filtered_patterns)} patterns from .gitignore")
+            else:
+                print("\nNo .gitignore file found in the current directory")
+                
+        with open(CONFIG_FILE, 'w') as f:
+            json.dump(config, f, indent=2)
+        print(f"\nCreated configuration file: {CONFIG_FILE}")
+        
+        # Show the user what was created
+        print("\nConfiguration:")
+        print(f"  Include paths: {config['include_paths']}")
+        print(f"  Exclude patterns ({len(config['exclude_patterns'])}):")
+        for pattern in config['exclude_patterns'][:10]:  # Show first 10
+            print(f"    - {pattern}")
+        if len(config['exclude_patterns']) > 10:
+            print(f"    ... and {len(config['exclude_patterns']) - 10} more patterns")
     
-    # Load from custom config if provided
-    if config_path and os.path.exists(config_path):
-        try:
-            with open(config_path, 'r') as f:
-                config = json.load(f)
-        except json.JSONDecodeError:
-            print(f"Warning: Could not parse config file {config_path}. Using default config.")
-    
-    # Load patterns from .gitignore if requested
-    if from_gitignore:
-        gitignore_files = GitignoreParser.find_gitignore_files(os.getcwd())
-        if gitignore_files:
-            print(f"\nFound .gitignore file(s): {', '.join(gitignore_files)}")
-            
-            # Parse all .gitignore files
-            gitignore_patterns = []
-            for gitignore_file in gitignore_files:
-                patterns = GitignoreParser.parse_gitignore_file(gitignore_file)
-                gitignore_patterns.extend(patterns)
-            
-            # Filter patterns unless --all-gitignore-patterns is used
-            filtered_patterns = GitignoreParser.filter_patterns(
-                gitignore_patterns, 
-                include_all=all_gitignore_patterns
-            )
-            
-            # Merge with default patterns
-            config['exclude_patterns'] = GitignoreParser.merge_with_defaults(
-                filtered_patterns,
-                config.get('exclude_patterns', [])
-            )
-            
-            # Suggest additional patterns
-            suggestions = GitignoreParser.suggest_additional_patterns(config['exclude_patterns'])
-            if suggestions:
-                print("\nConsider adding these additional patterns:")
-                for pattern in suggestions:
-                    print(f"  - {pattern}")
-            
-            print(f"\nInitialized with {len(filtered_patterns)} patterns from .gitignore")
-        else:
-            print("\nNo .gitignore file found in the current directory")
-            
-    with open(CONFIG_FILE, 'w') as f:
-        json.dump(config, f, indent=2)
-    print(f"\nCreated configuration file: {CONFIG_FILE}")
-    
-    # Show the user what was created
-    print("\nConfiguration:")
-    print(f"  Include paths: {config['include_paths']}")
-    print(f"  Exclude patterns ({len(config['exclude_patterns'])}):")
-    for pattern in config['exclude_patterns'][:10]:  # Show first 10
-        print(f"    - {pattern}")
-    if len(config['exclude_patterns']) > 10:
-        print(f"    ... and {len(config['exclude_patterns']) - 10} more patterns")
-    
-    # Create metrics directory
+    # Create metrics directory  
     os.makedirs(METRICS_DIR, exist_ok=True)
-    print(f"Created metrics directory: {METRICS_DIR}")
+    if not os.path.exists(os.path.join(METRICS_DIR, '.gitkeep')):
+        print(f"Created metrics directory: {METRICS_DIR}")
     
     # Create CODE_METRICS.md if it doesn't exist
+    metrics_created = False
     if not os.path.exists(METRICS_FILE):
         # Get template from package
         if resources:
@@ -166,6 +174,12 @@ This file tracks code quality metrics over time to help monitor and improve our 
 
 ## Metrics Definitions
 
+### cloc Metrics
+
+- **Lines of Code**: Physical lines containing source code (excludes blank lines and comments)
+- **Files**: Number of files analyzed by language type
+- **Comments**: Lines containing comments or documentation
+
 ### Ruff Metrics
 
 - **Issues Count**: Total number of linting issues detected by Ruff
@@ -190,11 +204,16 @@ This file tracks code quality metrics over time to help monitor and improve our 
 
 """)
         print(f"Created metrics file: {METRICS_FILE}")
+        metrics_created = True
     else:
         print(f"Metrics file already exists: {METRICS_FILE}")
     
-    print("\nProject initialized successfully!")
-    print("Run 'codeqa snapshot' to create your first code quality snapshot.")
+    # Final success message
+    if config_created or metrics_created:
+        print("\nProject initialized successfully!")
+        print("Run 'codeqa snapshot' to create your first code quality snapshot.")
+    else:
+        print("\nProject files already exist. Use --force to reinitialize configuration.")
 
 
 def load_config(config_path=None):

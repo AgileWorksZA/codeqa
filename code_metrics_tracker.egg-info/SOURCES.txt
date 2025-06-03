@@ -19,6 +19,8 @@ codeqa/templates/CODE_METRICS.md.template
 codeqa/templates/codeqa.json.template
 codeqa/templates/github-workflow.yml.template
 tests/test_basic.py
+tests/test_force_init.py
+tests/test_gitignore_comments.py
 tests/test_gitignore_parser.py
 tests/test_parsing.py
 tests/test_pattern_translator.py

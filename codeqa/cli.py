@@ -5,6 +5,7 @@ Main CLI entry point for the CodeQA tool.
 
 import argparse
 import sys
+from . import __version__
 from .metrics import (
     create_snapshot,
     update_metrics_file,
@@ -18,6 +19,7 @@ from .metrics import (
 def main():
     """Main CLI function."""
     parser = argparse.ArgumentParser(description='Generate and analyze code quality metrics')
+    parser.add_argument('--version', action='version', version=f'codeqa {__version__}')
     subparsers = parser.add_subparsers(dest='command', help='Command to run')
     
     # Init command
