@@ -2,14 +2,20 @@
 
 All notable changes to the Code Metrics Tracker project will be documented in this file.
 
-## [0.1.9] - 2025-05-22
+## [0.1.9] - 2025-06-03
+
+### Added
+- New `--from-gitignore` flag for `codeqa init` to initialize exclude patterns from .gitignore
+- New `--all-gitignore-patterns` flag to include all .gitignore patterns without filtering
+- Pattern suggestions based on detected project type (Python, JavaScript, etc.)
+- `GitignoreParser` class for parsing and converting .gitignore patterns
+- `PatternTranslator` class for converting patterns between tool-specific formats
 
 ### Fixed
+- Fixed cloc "cannot specify directory paths" error by using `--not-match-d` with regex for complex patterns
 - Fixed cloc command failure when exclude patterns contain wildcards (e.g., `*.db`, `config/*.yaml`)
-- Improved pattern handling in `build_cloc_exclude_args()` to correctly:
-  - Convert `*.ext` patterns to `--exclude-ext=ext` 
-  - Skip complex wildcard patterns that cloc doesn't support
-  - Only pass simple directory names and paths to `--exclude-dir`
+- Improved pattern handling for all tools (cloc, ruff, radon) to ensure consistent exclusions
+- Fixed radon pattern handling to use `-i` for directories and `-e` for file patterns
 
 ## [0.1.6] - 2025-05-14
 

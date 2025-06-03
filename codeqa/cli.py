@@ -24,6 +24,10 @@ def main():
     init_parser = subparsers.add_parser('init', 
         help='Initialize code quality tracking in your project')
     init_parser.add_argument('--config', help='Path to a custom config file')
+    init_parser.add_argument('--from-gitignore', action='store_true',
+        help='Initialize exclude patterns from .gitignore file')
+    init_parser.add_argument('--all-gitignore-patterns', action='store_true',
+        help='Include all .gitignore patterns without filtering (use with --from-gitignore)')
     
     # Snapshot command
     snapshot_parser = subparsers.add_parser('snapshot', 
@@ -65,7 +69,9 @@ def main():
     if args.command == 'init':
         # Initialize project
         config_path = args.config if hasattr(args, 'config') else None
-        init_project(config_path)
+        from_gitignore = args.from_gitignore if hasattr(args, 'from_gitignore') else False
+        all_patterns = args.all_gitignore_patterns if hasattr(args, 'all_gitignore_patterns') else False
+        init_project(config_path, from_gitignore=from_gitignore, all_gitignore_patterns=all_patterns)
         return 0
     
     elif args.command == 'snapshot':
