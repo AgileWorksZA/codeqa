@@ -1,0 +1,1085 @@
+{
+  "date": "June 03, 2025",
+  "timestamp": "20250603_130339",
+  "config": {
+    "include_paths": [
+      "codeqa",
+      "tests"
+    ],
+    "exclude_patterns": [
+      "test_files",
+      "sample_project",
+      "test_analysis",
+      ".coverage",
+      "htmlcov",
+      "*.egg-info",
+      "wheelhouse"
+    ]
+  },
+  "cloc": {
+    "total": {
+      "files": 11,
+      "blank": 683,
+      "comment": 930,
+      "code": 1922
+    },
+    "by_language": {
+      "Python": {
+        "files": 11,
+        "blank": 683,
+        "comment": 930,
+        "code": 1922
+      }
+    }
+  },
+  "ruff": {
+    "issues_count": 9,
+    "issues": [
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "line": 10,
+        "column": 26,
+        "code": "F401",
+        "message": "`typing.Set` imported but unused"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "line": 74,
+        "column": 21,
+        "code": "F841",
+        "message": "Local variable `is_dir` is assigned to but never used"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "line": 131,
+        "column": 19,
+        "code": "F541",
+        "message": "f-string without any placeholders"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "line": 971,
+        "column": 15,
+        "code": "F541",
+        "message": "f-string without any placeholders"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "line": 12,
+        "column": 31,
+        "code": "F401",
+        "message": "`typing.Tuple` imported but unused"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "line": 12,
+        "column": 8,
+        "code": "F401",
+        "message": "`os` imported but unused"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "line": 13,
+        "column": 8,
+        "code": "F401",
+        "message": "`tempfile` imported but unused"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "line": 15,
+        "column": 34,
+        "code": "F401",
+        "message": "`unittest.mock.MagicMock` imported but unused"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "line": 18,
+        "column": 20,
+        "code": "F401",
+        "message": "`codeqa.metrics` imported but unused"
+      }
+    ],
+    "files_count": {
+      "/home/runner/work/codeqa/codeqa/tests/test_parsing.py": 4,
+      "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py": 3,
+      "/home/runner/work/codeqa/codeqa/codeqa/metrics.py": 1,
+      "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py": 1
+    }
+  },
+  "radon_cc": {
+    "grade_counts": {
+      "A": 79,
+      "B": 26,
+      "C": 10,
+      "D": 2,
+      "E": 1,
+      "F": 0
+    },
+    "functions": [
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "create_snapshot",
+        "grade": "E",
+        "complexity": 39,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/cli.py",
+        "function": "main",
+        "grade": "D",
+        "complexity": 28,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "get_code_stats",
+        "grade": "D",
+        "complexity": 25,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/complex_sample.py",
+        "function": "very_complex_function",
+        "grade": "C",
+        "complexity": 19,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "build_cloc_exclude_args",
+        "grade": "C",
+        "complexity": 18,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "compare_snapshots",
+        "grade": "C",
+        "complexity": 16,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "compare_snapshots",
+        "grade": "C",
+        "complexity": 16,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "init_project",
+        "grade": "C",
+        "complexity": 15,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/complex_sample.py",
+        "function": "complex_method",
+        "grade": "C",
+        "complexity": 14,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "parse_ruff_output",
+        "grade": "C",
+        "complexity": 12,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "get_formatted_trend",
+        "grade": "C",
+        "complexity": 12,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "get_formatted_trend",
+        "grade": "C",
+        "complexity": 12,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "function": "filter_patterns",
+        "grade": "C",
+        "complexity": 11,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "list_snapshots",
+        "grade": "B",
+        "complexity": 10,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/pattern_translator.py",
+        "function": "PatternTranslator",
+        "grade": "B",
+        "complexity": 10,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/pattern_translator.py",
+        "function": "glob_to_regex",
+        "grade": "B",
+        "complexity": 10,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/pattern_translator.py",
+        "function": "separate_file_dir_patterns",
+        "grade": "B",
+        "complexity": 10,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "list_snapshots",
+        "grade": "B",
+        "complexity": 10,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "format_snapshot_markdown",
+        "grade": "B",
+        "complexity": 10,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "test_snapshot",
+        "grade": "B",
+        "complexity": 10,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "function": "parse_gitignore_file",
+        "grade": "B",
+        "complexity": 9,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "function": "suggest_additional_patterns",
+        "grade": "B",
+        "complexity": 9,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "function": "parse_radon_cc_json",
+        "grade": "B",
+        "complexity": 9,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/complex_sample.py",
+        "function": "medium_complex_function",
+        "grade": "B",
+        "complexity": 9,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "is_project_file",
+        "grade": "B",
+        "complexity": 8,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/pattern_translator.py",
+        "function": "patterns_to_ruff_globs",
+        "grade": "B",
+        "complexity": 8,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "function": "GitignoreParser",
+        "grade": "B",
+        "complexity": 8,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "complex_function",
+        "grade": "B",
+        "complexity": 8,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "run_command",
+        "grade": "B",
+        "complexity": 7,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "find_latest_metrics_file",
+        "grade": "B",
+        "complexity": 7,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "find_latest_metrics_file",
+        "grade": "B",
+        "complexity": 7,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "compute_trend",
+        "grade": "B",
+        "complexity": 6,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "create_report",
+        "grade": "B",
+        "complexity": 6,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "is_snapshot_unchanged",
+        "grade": "B",
+        "complexity": 6,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "compute_trend",
+        "grade": "B",
+        "complexity": 6,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "create_report",
+        "grade": "B",
+        "complexity": 6,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "test_init",
+        "grade": "B",
+        "complexity": 6,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "test_compare",
+        "grade": "B",
+        "complexity": 6,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/complex_sample.py",
+        "function": "ComplexityTestClass",
+        "grade": "B",
+        "complexity": 6,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "build_radon_exclude_args",
+        "grade": "A",
+        "complexity": 5,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "parse_radon_mi",
+        "grade": "A",
+        "complexity": 5,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "update_metrics_file",
+        "grade": "A",
+        "complexity": 5,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "function": "merge_with_defaults",
+        "grade": "A",
+        "complexity": 5,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "function": "parse_radon_mi",
+        "grade": "A",
+        "complexity": 5,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "update_metrics_file",
+        "grade": "A",
+        "complexity": 5,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "TestCodeMetricsTracker",
+        "grade": "A",
+        "complexity": 5,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "test_list",
+        "grade": "A",
+        "complexity": 5,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "test_report",
+        "grade": "A",
+        "complexity": 5,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/complex_sample.py",
+        "function": "medium_method",
+        "grade": "A",
+        "complexity": 5,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "function": "parse_cloc_json",
+        "grade": "A",
+        "complexity": 4,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "load_config",
+        "grade": "A",
+        "complexity": 3,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "build_ruff_exclude_args",
+        "grade": "A",
+        "complexity": 3,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "get_top_complex_files",
+        "grade": "A",
+        "complexity": 3,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "get_top_complex_functions",
+        "grade": "A",
+        "complexity": 3,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "get_top_lint_files",
+        "grade": "A",
+        "complexity": 3,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "get_top_low_mi_files",
+        "grade": "A",
+        "complexity": 3,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "TestRadonParsing",
+        "grade": "A",
+        "complexity": 3,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "test_radon_cc_json_parsing",
+        "grade": "A",
+        "complexity": 3,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "test_radon_cc_json_parsing_with_string_entries",
+        "grade": "A",
+        "complexity": 3,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "run_tests",
+        "grade": "A",
+        "complexity": 3,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "function": "count_issues_by_file",
+        "grade": "A",
+        "complexity": 2,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "function": "find_gitignore_files",
+        "grade": "A",
+        "complexity": 2,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "function": "parse_ruff_json",
+        "grade": "A",
+        "complexity": 2,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "format_code_stats_table",
+        "grade": "A",
+        "complexity": 2,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "format_complex_files_table",
+        "grade": "A",
+        "complexity": 2,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "format_complex_functions_table",
+        "grade": "A",
+        "complexity": 2,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "format_lint_files_table",
+        "grade": "A",
+        "complexity": 2,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "format_mi_files_table",
+        "grade": "A",
+        "complexity": 2,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "function": "TestGitignoreParser",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "function": "test_parse_gitignore_file",
+        "grade": "A",
+        "complexity": 2,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "TestRuffParsing",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "TestClocParsing",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "check_cloc_installed",
+        "grade": "A",
+        "complexity": 2,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "TestPatternTranslator",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "SampleClass",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "UndocumentedClass",
+        "grade": "A",
+        "complexity": 2,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "function": "ClocLanguageStats",
+        "grade": "A",
+        "complexity": 1,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "function": "ClocStats",
+        "grade": "A",
+        "complexity": 1,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "function": "RuffIssue",
+        "grade": "A",
+        "complexity": 1,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "function": "RadonCCFunction",
+        "grade": "A",
+        "complexity": 1,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "function": "RadonCCFile",
+        "grade": "A",
+        "complexity": 1,
+        "type": "class"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "function": "format_trend_section",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "function": "test_filter_patterns",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "function": "test_merge_with_defaults",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "function": "test_suggest_additional_patterns",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "function": "test_find_gitignore_files",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "function": "test_empty_gitignore",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "function": "test_nonexistent_gitignore",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "function": "test_complex_gitignore_patterns",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "setUp",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "setUp",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "test_ruff_json_parsing",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "setUp",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "function": "test_cloc_json_parsing",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "setup_method",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "teardown_method",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "function": "run_command",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_glob_to_regex_simple_directory",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_glob_to_regex_with_wildcards",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_glob_to_regex_with_paths",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_glob_to_regex_specific_files",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_separate_file_dir_patterns",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_patterns_to_ruff_globs_simple_dirs",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_patterns_to_ruff_globs_extensions",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_patterns_to_ruff_globs_mixed",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_empty_patterns",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "function": "test_complex_real_world_patterns",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "func_with_mutable_default",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "undefined_name_function",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "list",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "unreachable",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "too_many_args",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "__init__",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "__init__",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py",
+        "function": "method",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/complex_sample.py",
+        "function": "simple_function",
+        "grade": "A",
+        "complexity": 1,
+        "type": "function"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/complex_sample.py",
+        "function": "__init__",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_files/complex_sample.py",
+        "function": "simple_method",
+        "grade": "A",
+        "complexity": 1,
+        "type": "method"
+      }
+    ],
+    "files": {
+      "/home/runner/work/codeqa/codeqa/codeqa/metrics.py": {
+        "count": 19,
+        "max_complexity": 39,
+        "max_grade": "E",
+        "function": "create_snapshot"
+      },
+      "/home/runner/work/codeqa/codeqa/codeqa/cli.py": {
+        "count": 1,
+        "max_complexity": 28,
+        "max_grade": "D",
+        "function": "main"
+      },
+      "/home/runner/work/codeqa/codeqa/tests/test_files/complex_sample.py": {
+        "count": 8,
+        "max_complexity": 19,
+        "max_grade": "C",
+        "function": "very_complex_function"
+      },
+      "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py": {
+        "count": 19,
+        "max_complexity": 16,
+        "max_grade": "C",
+        "function": "compare_snapshots"
+      },
+      "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py": {
+        "count": 6,
+        "max_complexity": 11,
+        "max_grade": "C",
+        "function": "filter_patterns"
+      },
+      "/home/runner/work/codeqa/codeqa/codeqa/pattern_translator.py": {
+        "count": 4,
+        "max_complexity": 10,
+        "max_grade": "B",
+        "function": "PatternTranslator"
+      },
+      "/home/runner/work/codeqa/codeqa/tests/test_basic.py": {
+        "count": 11,
+        "max_complexity": 10,
+        "max_grade": "B",
+        "function": "test_snapshot"
+      },
+      "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py": {
+        "count": 9,
+        "max_complexity": 9,
+        "max_grade": "B",
+        "function": "parse_radon_cc_json"
+      },
+      "/home/runner/work/codeqa/codeqa/tests/test_files/linting_sample.py": {
+        "count": 11,
+        "max_complexity": 8,
+        "max_grade": "B",
+        "function": "complex_function"
+      },
+      "/home/runner/work/codeqa/codeqa/tests/test_parsing.py": {
+        "count": 10,
+        "max_complexity": 3,
+        "max_grade": "A",
+        "function": "TestRadonParsing"
+      },
+      "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py": {
+        "count": 9,
+        "max_complexity": 2,
+        "max_grade": "A",
+        "function": "TestGitignoreParser"
+      },
+      "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py": {
+        "count": 11,
+        "max_complexity": 2,
+        "max_grade": "A",
+        "function": "TestPatternTranslator"
+      }
+    }
+  },
+  "radon_mi": {
+    "grade_counts": {
+      "A": 10,
+      "B": 1,
+      "C": 0
+    },
+    "files": [
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics.py",
+        "grade": "B",
+        "score": 16.31
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/snapshot_manager.py",
+        "grade": "A",
+        "score": 36.11
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_basic.py",
+        "grade": "A",
+        "score": 51.71
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/cli.py",
+        "grade": "A",
+        "score": 59.02
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_parsing.py",
+        "grade": "A",
+        "score": 63.65
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/pattern_translator.py",
+        "grade": "A",
+        "score": 63.92
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/gitignore_parser.py",
+        "grade": "A",
+        "score": 64.99
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/metrics_parsing.py",
+        "grade": "A",
+        "score": 65.3
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_gitignore_parser.py",
+        "grade": "A",
+        "score": 73.74
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/tests/test_pattern_translator.py",
+        "grade": "A",
+        "score": 77.9
+      },
+      {
+        "file": "/home/runner/work/codeqa/codeqa/codeqa/__init__.py",
+        "grade": "A",
+        "score": 100.0
+      }
+    ]
+  }
+}
