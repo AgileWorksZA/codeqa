@@ -5,7 +5,7 @@
 This tool tracks code quality metrics for Python projects, generating reports that highlight code quality trends over time.
 
 - **Package name**: code-metrics-tracker
-- **Current version**: 0.1.6
+- **Current version**: 0.1.11
 - **Repository**: https://github.com/AgileWorksZA/codeqa
 - **PyPI**: https://pypi.org/project/code-metrics-tracker/
 
@@ -18,9 +18,11 @@ The tool uses three specialized analyzers:
 
 ### Core Implementation
 
-- `codeqa/__init__.py`: Version definition (`__version__ = "0.1.6"`)
+- `codeqa/__init__.py`: Version definition (`__version__ = "0.1.11"`)
 - `codeqa/cli.py`: CLI command parser and entry point
 - `codeqa/metrics.py`: Core implementation with all metrics functionality
+- `codeqa/gitignore_parser.py`: NEW - Parses .gitignore files and converts patterns for codeqa
+- `codeqa/pattern_translator.py`: NEW - Translates patterns between different tool formats
 
 ### Templates
 
@@ -44,8 +46,8 @@ The tool uses three specialized analyzers:
 ### Creating a Release
 
 1. Update versions in:
-   - `setup.py` - `version="0.1.6"` parameter
-   - `codeqa/__init__.py` - `__version__ = "0.1.6"` variable
+   - `setup.py` - `version="0.1.11"` parameter
+   - `codeqa/__init__.py` - `__version__ = "0.1.11"` variable
 
 2. Build the package:
    ```bash
@@ -77,6 +79,8 @@ The tool uses three specialized analyzers:
 ## Command Overview
 
 - `codeqa init`: Initialize project with config file and templates
+  - `--from-gitignore`: Initialize exclude patterns from .gitignore file (NEW in 0.1.11)
+  - `--all-gitignore-patterns`: Include all .gitignore patterns without filtering (NEW in 0.1.11)
 - `codeqa snapshot`: Create a new metrics snapshot and update report
 - `codeqa list`: List all available snapshots
 - `codeqa compare`: Compare two snapshots to analyze trends
@@ -98,6 +102,64 @@ Default configuration:
 
 Note: Many common patterns (like `.git`, `.venv`, `__pycache__`) are already excluded by the tools themselves, so the config only needs project-specific exclusions.
 
+## New Feature: Initialize from .gitignore (v0.1.11)
+
+### --from-gitignore Flag
+
+The `--from-gitignore` option automatically reads your project's `.gitignore` file and configures exclude patterns to ensure consistency between what git ignores and what codeqa excludes from analysis.
+
+```bash
+# Initialize with patterns from .gitignore
+codeqa init --from-gitignore
+
+# Include ALL .gitignore patterns without filtering
+codeqa init --from-gitignore --all-gitignore-patterns
+```
+
+### Pattern Filtering
+
+By default, some .gitignore patterns are filtered out as they might contain code you want to analyze:
+- IDE configuration files (`.idea/`, `.vscode/`)
+- Environment files (`.env`, `.env.local`)
+- Log files (`*.log`, `logs/`)
+- OS-specific files (`.DS_Store`, `Thumbs.db`)
+- Node.js dependencies (`node_modules/`)
+- Git directory (`.git/`)
+
+Use `--all-gitignore-patterns` to include these patterns anyway.
+
+### Smart Project Detection
+
+The tool detects your project type and suggests additional patterns:
+- **Python projects**: Suggests `.coverage`, `htmlcov/`, `.pytest_cache/`, etc.
+- **JavaScript projects**: Suggests `dist/`, `build/`, `.next/`, etc.
+- **General projects**: Suggests common development artifacts
+
+### Pattern Translation
+
+The GitignoreParser and PatternTranslator work together to:
+1. Parse .gitignore patterns using standard gitignore syntax
+2. Filter questionable patterns (unless `--all-gitignore-patterns` is used)
+3. Translate patterns to each tool's specific format:
+   - **cloc**: Uses `--exclude-dir`, `--exclude-ext`, and `--not-match-d` with regex
+   - **Ruff**: Uses glob patterns with `--exclude`
+   - **Radon**: Uses `-i` for directories, `-e` for file patterns
+
+### Implementation Details
+
+Key components added in v0.1.11:
+- `GitignoreParser.parse_gitignore()`: Reads and filters .gitignore patterns
+- `GitignoreParser.suggest_additional_patterns()`: Suggests project-specific patterns
+- `PatternTranslator.patterns_to_cloc_args()`: Converts patterns for cloc
+- `PatternTranslator.patterns_to_ruff_globs()`: Converts patterns for ruff  
+- `PatternTranslator.patterns_to_radon_args()`: Converts patterns for radon
+
+### Bug Fixes in v0.1.11
+
+- **Fixed cloc wildcard handling**: cloc now uses `--not-match-d` with regex for complex patterns instead of failing with "cannot specify directory paths" error
+- **Improved pattern consistency**: All tools now handle the same exclude patterns correctly
+- **Enhanced error handling**: Better validation and error messages for pattern translation
+
 ## Output Files
 
 1. `CODE_METRICS.md`: Main report with historical metrics
@@ -110,3 +172,16 @@ Note: Many common patterns (like `.git`, `.venv`, `__pycache__`) are already exc
 - **Python packages**:
   - ruff >= 0.0.254
   - radon >= 5.1.0
+
+## Testing
+
+The project includes comprehensive tests for the new functionality:
+- `tests/test_gitignore_parser.py`: Tests for GitignoreParser functionality
+- `tests/test_pattern_translator.py`: Tests for PatternTranslator functionality
+- `tests/test_basic.py`: Core functionality tests
+- `tests/test_parsing.py`: Metrics parsing tests
+
+Run tests with:
+```bash
+python -m pytest tests/
+```

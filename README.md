@@ -40,6 +40,16 @@ Code Metrics Tracker combines three industry-standard tools to provide comprehen
 - **Ruff**: Identifies linting issues, code style violations, and potential bugs with fast performance
 - **Radon**: Analyzes code complexity (cyclomatic complexity) and maintainability
 
+## What's New in 0.1.11 (June 2025)
+
+- **New Feature**: Added `--from-gitignore` flag to initialize exclude patterns from .gitignore file
+- **Smart Pattern Filtering**: Automatically filters questionable patterns but allows override with `--all-gitignore-patterns`
+- **Project Type Detection**: Suggests additional patterns based on detected project type (Python, JavaScript, etc.)
+- **Enhanced Pattern Translation**: New PatternTranslator class ensures consistent pattern handling across all tools
+- **Bug Fix**: Fixed cloc wildcard handling using `--not-match-d` with regex for complex patterns
+- **New Modules**: Added GitignoreParser and PatternTranslator for robust .gitignore integration
+- **Comprehensive Testing**: Added test suites for new gitignore and pattern translation functionality
+
 ## What's New in 0.1.9 (May 2025)
 
 - **Bug Fix**: Fixed cloc command failure when exclude patterns contain wildcards (e.g., `*.db`, `config/*.yaml`)
