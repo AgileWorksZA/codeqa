@@ -1474,3 +1474,91 @@ This file tracks code quality metrics over time to help monitor and improve our 
   - 13 high complexity functions
   - 0 files with low maintainability
 
+### June 03, 2025
+
+#### Summary
+
+| Metric | Value | 
+|--------|-------|
+| Lines of Code | 1,922 |
+| Files | 11 |
+| Comments | 930 |
+| Linting Issues | 9 |
+| Cyclomatic Complexity | A:79 B:26 C:10 D:2 E:1 F:0 |
+| Maintainability Index | A:10 B:1 C:0 |
+| Detailed Report | [metrics_20250603_143953.json](metrics/metrics_20250603_143953.json) |
+
+#### Code Statistics by Language
+| Language | Files | Code | Comment | Blank |
+|----------|-------|------|---------|-------|
+| Python | 11 | 1,922 | 930 | 683 |
+
+
+#### Top 10 Complex Files
+| File | Grade | Complexity | Most Complex Function |
+|------|-------|------------|----------------------|
+| codeqa/metrics.py | E | 39 | create_snapshot |
+| codeqa/cli.py | D | 28 | main |
+| tests/test_files/complex_sample.py | C | 19 | very_complex_function |
+| codeqa/snapshot_manager.py | C | 16 | compare_snapshots |
+| codeqa/gitignore_parser.py | C | 11 | filter_patterns |
+| codeqa/pattern_translator.py | B | 10 | PatternTranslator |
+| tests/test_basic.py | B | 10 | test_snapshot |
+| codeqa/metrics_parsing.py | B | 9 | parse_radon_cc_json |
+| tests/test_files/linting_sample.py | B | 8 | complex_function |
+| tests/test_parsing.py | A | 3 | TestRadonParsing |
+
+
+#### Top 10 Complex Functions/Methods
+| File | Function | Grade | Complexity |
+|------|----------|-------|------------|
+| codeqa/metrics.py | create_snapshot | E | 39 |
+| codeqa/cli.py | main | D | 28 |
+| codeqa/metrics.py | get_code_stats | D | 25 |
+| tests/test_files/complex_sample.py | very_complex_function | C | 19 |
+| codeqa/metrics.py | build_cloc_exclude_args | C | 18 |
+| codeqa/metrics.py | compare_snapshots | C | 16 |
+| codeqa/snapshot_manager.py | compare_snapshots | C | 16 |
+| codeqa/metrics.py | init_project | C | 15 |
+| tests/test_files/complex_sample.py | complex_method | C | 14 |
+| codeqa/metrics.py | parse_ruff_output | C | 12 |
+
+
+#### Top 10 Files with Linting Issues
+| File | Issues |
+|------|--------|
+| tests/test_parsing.py | 4 |
+| codeqa/gitignore_parser.py | 3 |
+| codeqa/metrics.py | 1 |
+| codeqa/snapshot_manager.py | 1 |
+
+
+#### Top 10 Files with Low Maintainability
+| File | Grade | Score |
+|------|-------|-------|
+| codeqa/metrics.py | B | 16.31 |
+| codeqa/snapshot_manager.py | A | 36.11 |
+| tests/test_basic.py | A | 51.71 |
+| codeqa/cli.py | A | 59.02 |
+| tests/test_parsing.py | A | 63.65 |
+| codeqa/pattern_translator.py | A | 63.92 |
+| codeqa/gitignore_parser.py | A | 64.99 |
+| codeqa/metrics_parsing.py | A | 65.30 |
+| tests/test_gitignore_parser.py | A | 73.74 |
+| tests/test_pattern_translator.py | A | 77.90 |
+
+
+#### Trends Since Last Snapshot
+| Metric | Change |
+|--------|--------|
+| Lines of Code | ↑ 433 (29.1%) |
+| Linting Issues | ↑ 3 (50.0%) |
+| Complex Functions | ↑ 3 (30.0%) |
+| Low Maintainability | ↑ 0 |
+
+#### Analysis
+- Critical issues to address:
+  - 9 linting issues
+  - 13 high complexity functions
+  - 0 files with low maintainability
+
