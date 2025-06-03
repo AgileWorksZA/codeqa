@@ -164,9 +164,29 @@ The `init` command sets up your project for code quality tracking by:
 # Basic initialization with default settings
 codeqa init
 
+# Initialize with patterns from your .gitignore file
+codeqa init --from-gitignore
+
+# Include ALL .gitignore patterns (including IDE files, logs, etc.)
+codeqa init --from-gitignore --all-gitignore-patterns
+
 # After initialization, you can edit codeqa.json to customize
 # which directories to include/exclude
 ```
+
+##### Initializing from .gitignore
+
+The `--from-gitignore` option reads your project's `.gitignore` file and automatically configures exclude patterns. This ensures consistency between what's ignored by git and what's excluded from code analysis.
+
+By default, some patterns are filtered out as they might contain code you want to analyze:
+- IDE configuration files (`.idea/`, `.vscode/`)
+- Environment files (`.env`, `.env.local`)
+- Log files (`*.log`, `logs/`)
+- OS-specific files (`.DS_Store`, `Thumbs.db`)
+
+Use `--all-gitignore-patterns` to include these patterns anyway.
+
+The tool will also suggest additional patterns based on your project type. For example, if it detects Python patterns, it will suggest adding `.coverage`, `htmlcov/`, `.pytest_cache/`, etc.
 
 #### Create Metrics Snapshots
 

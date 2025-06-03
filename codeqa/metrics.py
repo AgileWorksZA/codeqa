@@ -14,6 +14,8 @@ import shutil
 import subprocess
 from collections import defaultdict
 import pkg_resources
+from codeqa.pattern_translator import PatternTranslator
+from codeqa.gitignore_parser import GitignoreParser
 
 
 # Constants
@@ -28,28 +30,78 @@ DEFAULT_CONFIG = {
 }
 
 
-def init_project(config_path=None):
+def init_project(config_path=None, from_gitignore=False, all_gitignore_patterns=False):
     """
     Initialize a project with code quality tracking.
     
     Args:
         config_path: Optional path to a custom config file
+        from_gitignore: If True, initialize exclude patterns from .gitignore
+        all_gitignore_patterns: If True, include all .gitignore patterns without filtering
     """
     # Create config file
     if not os.path.exists(CONFIG_FILE):
-        config = DEFAULT_CONFIG
+        config = DEFAULT_CONFIG.copy()
+        
+        # Load from custom config if provided
         if config_path and os.path.exists(config_path):
             try:
                 with open(config_path, 'r') as f:
                     config = json.load(f)
             except json.JSONDecodeError:
                 print(f"Warning: Could not parse config file {config_path}. Using default config.")
+        
+        # Load patterns from .gitignore if requested
+        if from_gitignore:
+            gitignore_files = GitignoreParser.find_gitignore_files(os.getcwd())
+            if gitignore_files:
+                print(f"\nFound .gitignore file(s): {', '.join(gitignore_files)}")
+                
+                # Parse all .gitignore files
+                gitignore_patterns = []
+                for gitignore_file in gitignore_files:
+                    patterns = GitignoreParser.parse_gitignore_file(gitignore_file)
+                    gitignore_patterns.extend(patterns)
+                
+                # Filter patterns unless --all-gitignore-patterns is used
+                filtered_patterns = GitignoreParser.filter_patterns(
+                    gitignore_patterns, 
+                    include_all=all_gitignore_patterns
+                )
+                
+                # Merge with default patterns
+                config['exclude_patterns'] = GitignoreParser.merge_with_defaults(
+                    filtered_patterns,
+                    config.get('exclude_patterns', [])
+                )
+                
+                # Suggest additional patterns
+                suggestions = GitignoreParser.suggest_additional_patterns(config['exclude_patterns'])
+                if suggestions:
+                    print("\nConsider adding these additional patterns:")
+                    for pattern in suggestions:
+                        print(f"  - {pattern}")
+                
+                print(f"\nInitialized with {len(filtered_patterns)} patterns from .gitignore")
+            else:
+                print("\nNo .gitignore file found in the current directory")
                 
         with open(CONFIG_FILE, 'w') as f:
             json.dump(config, f, indent=2)
-        print(f"Created configuration file: {CONFIG_FILE}")
+        print(f"\nCreated configuration file: {CONFIG_FILE}")
+        
+        # Show the user what was created
+        print("\nConfiguration:")
+        print(f"  Include paths: {config['include_paths']}")
+        print(f"  Exclude patterns ({len(config['exclude_patterns'])}):")
+        for pattern in config['exclude_patterns'][:10]:  # Show first 10
+            print(f"    - {pattern}")
+        if len(config['exclude_patterns']) > 10:
+            print(f"    ... and {len(config['exclude_patterns']) - 10} more patterns")
     else:
         print(f"Configuration file already exists: {CONFIG_FILE}")
+        if from_gitignore:
+            print("Use --force to overwrite existing configuration")
     
     # Create metrics directory
     os.makedirs(METRICS_DIR, exist_ok=True)
@@ -162,25 +214,44 @@ def build_cloc_exclude_args(config):
     Returns:
         String with exclude arguments for cloc
     """
-    exclude_dirs = []
-    exclude_exts = []
+    patterns = config.get("exclude_patterns", [])
+    if not patterns:
+        return ""
     
-    for pattern in config.get("exclude_patterns", []):
-        if pattern.startswith("."):
-            # File extension (e.g., .pyc)
-            exclude_exts.append(pattern[1:])
-        elif "/" not in pattern and "." not in pattern:
-            # Simple directory name
-            exclude_dirs.append(pattern)
+    # Separate simple patterns from complex ones
+    simple_dirs = []
+    simple_exts = []
+    complex_patterns = []
+    
+    for pattern in patterns:
+        pattern = pattern.rstrip('/')
+        if not pattern:
+            continue
+            
+        if pattern.startswith('*.') and '/' not in pattern:
+            # Simple file extension (e.g., *.pyc)
+            simple_exts.append(pattern[2:])  # Remove *.
+        elif '/' not in pattern and '.' not in pattern and '*' not in pattern:
+            # Simple directory name without wildcards or paths
+            simple_dirs.append(pattern)
         else:
-            # More complex pattern - add as directory exclude
-            exclude_dirs.append(pattern)
+            # Complex pattern - needs regex
+            complex_patterns.append(pattern)
     
     args = ""
-    if exclude_dirs:
-        args += f" --exclude-dir={','.join(exclude_dirs)}"
-    if exclude_exts:
-        args += f" --exclude-ext={','.join(exclude_exts)}"
+    
+    # Add simple excludes
+    if simple_dirs:
+        args += f" --exclude-dir={','.join(simple_dirs)}"
+    if simple_exts:
+        args += f" --exclude-ext={','.join(simple_exts)}"
+    
+    # Add complex patterns using regex
+    if complex_patterns:
+        regex = PatternTranslator.glob_to_regex(complex_patterns)
+        if regex:
+            # Use --fullpath and --not-match-d for complex patterns
+            args += f" --fullpath --not-match-d='{regex}'"
     
     return args
 
@@ -195,22 +266,21 @@ def build_ruff_exclude_args(config):
     Returns:
         String with exclude arguments for Ruff
     """
-    exclude_patterns = []
+    patterns = config.get("exclude_patterns", [])
+    if not patterns:
+        return ""
     
-    for pattern in config.get("exclude_patterns", []):
-        if pattern.startswith("."):
-            # File extension (e.g., .pyc) -> convert to glob
-            exclude_patterns.append(f"*{pattern}")
-        elif "/" not in pattern and "." not in pattern:
-            # Simple directory name -> match anywhere
-            exclude_patterns.append(f"**/{pattern}/**")
-        else:
-            # Already a pattern
-            exclude_patterns.append(pattern)
+    # Convert patterns to ruff-compatible globs
+    ruff_patterns = PatternTranslator.patterns_to_ruff_globs(patterns)
     
+    # Build the exclude arguments
     args = ""
-    for pattern in exclude_patterns:
+    for pattern in ruff_patterns:
         args += f" --exclude '{pattern}'"
+    
+    # Add --no-respect-gitignore to ensure we only use our patterns
+    # This prevents double exclusion and makes behavior predictable
+    args += " --no-respect-gitignore"
     
     return args
 
@@ -225,22 +295,25 @@ def build_radon_exclude_args(config):
     Returns:
         String with exclude arguments for Radon
     """
-    exclude_patterns = []
+    patterns = config.get("exclude_patterns", [])
+    if not patterns:
+        return ""
     
-    for pattern in config.get("exclude_patterns", []):
-        if pattern.startswith("."):
-            # File extension (e.g., .pyc) -> convert to glob
-            exclude_patterns.append(f"*{pattern}")
-        elif "/" not in pattern and "." not in pattern:
-            # Simple directory name -> match anywhere
-            exclude_patterns.append(f"*/{pattern}/*")
-        else:
-            # Already a pattern
-            exclude_patterns.append(pattern)
+    # Separate file and directory patterns
+    file_patterns, dir_patterns = PatternTranslator.separate_file_dir_patterns(patterns)
     
     args = ""
-    for pattern in exclude_patterns:
-        args += f" --exclude '{pattern}'"
+    
+    # Add directory ignores with -i
+    if dir_patterns:
+        # Radon expects comma-separated list for -i
+        args += f" -i {','.join(dir_patterns)}"
+    
+    # Add file excludes with -e
+    if file_patterns:
+        # Each file pattern needs its own -e flag
+        for pattern in file_patterns:
+            args += f" -e '{pattern}'"
     
     return args
 
