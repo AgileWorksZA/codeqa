@@ -2,7 +2,7 @@
 
 All notable changes to the Code Metrics Tracker project will be documented in this file.
 
-## [0.1.9] - 2025-06-03
+## [0.1.11] - 2025-06-03
 
 ### Added
 - New `--from-gitignore` flag for `codeqa init` to initialize exclude patterns from .gitignore
